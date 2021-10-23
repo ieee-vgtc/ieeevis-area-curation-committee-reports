@@ -12,6 +12,8 @@ format:
 
 We use submission and bidding information from VIS 2021 to analyze the impact of moving to an area model. Given the information we have access to, the move appears to be broadly successful, and we only make small recommendations on example descriptions of areas, and keywords to change. Our analysis suggests that submissions are relatively balanced across areas, keywords are (with a small exception) well distributed, and the unified PC appears to provide broad and overlapping coverage.
 
+The full data and source code to rebuild this project are available [here](https://github.com/ieee-vgtc/ieeevis-area-curation-committee-reports).
+
 Committee members: Alex Endert (chair), Steven Drucker, Issei Fujishiro, Christoph Garth, Heidi Lam, Heike Leitte, Carlos Scheidegger, Hendrik Strobelt, Penny Rheingans.
 
 Last edited: 2021-10-23.
