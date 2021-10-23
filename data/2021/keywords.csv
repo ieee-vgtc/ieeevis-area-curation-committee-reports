@@ -1,0 +1,71 @@
+﻿Category;Subcategory;Short Name;Keyword;Description
+Data Type;Data Type;Geospatial;Geospatial Data;...data with geospatial (lat/lon) locations or trajectories
+Data Type;Data Type;Network;Graph/Network and Tree Data;...data with network (node/link) or tree/hierarchy structure
+Data Type;Data Type;HD;High-dimensional Data;...data with a large number of dimension columns (features/attributes) that requires extra effort to process
+Data Type;Data Type;Models;Data Models;...the structure of statistical and simulation models, model results and outputs, and the parameter spaces of model inputs as for example in machine learning
+Data Type;Data Type;Scalar;Scalar Field Data;...spatial/volume data with one or more scalar variables 
+Data Type;Data Type;ImageVideo;Image and Video Data;...imagery data in the form of stills or video
+Data Type;Data Type;Tabular;Tabular Data;...tables of row/column data with a moderate number of columns that are directly represented
+Data Type;Data Type;Time;Temporal Data;...data that has a temporal component (e.g. time series, time-oriented data, events, time-varying data, trajectories over time...)
+Data Type;Data Type;Text;Text/Document Data;...data in the form of text or documents
+Data Type;Data Type;Vector_Tensor;Vector and Tensor Field Data;...spatial data containing vector and tensor fields
+Data Type;Data Type;OtherData;Other Data;...a data type that does not reasonably fit into any other category
+Data Type;Data Type;NAData;Data Type Agnostic;no special expertise on data types is required for my paper
+Contribution Theme;General Contributions;Algorithm;Algorithms;...the design or implementation of data analysis/visualization algorithms
+Contribution Theme;General Contributions;DataAbstr;Data Abstractions & Types;... the process of reducing a particular body of data to a simplified representation and/or improvements or new uses of datasets/-types
+Contribution Theme;General Contributions;Datasets;Datasets;...contributing new datasets for benchmarking or understanding techniques / the field itself
+Contribution Theme;General Contributions;Deployment;Deployment;"...deployment of tools/techniques ""in the wild"""
+Contribution Theme;General Contributions;Methodology;Methodologies;...methodologies for visualization incl. design, evaluation, processes, collaboration, ...
+Contribution Theme;General Contributions;Application;Application Motivated Visualization;"...applying, adapting, or creating novel visualization techniques to address specific challenges presented by real-world applications; incl. design studies"
+Contribution Theme;General Contributions;Guidelines;Guidelines;...deriving or applying guidelines for design and use of visualization & visual analytics techniques
+Contribution Theme;General Contributions;Interaction;Interaction Design;...the design of interaction techniques and/or interaction design methodologies and practices for any interaction modalities (touch, pen, mouse, speech, proxemics, ...)
+Contribution Theme;General Contributions;Workflow;Process/Workflow Design;...designing, developing, evaluating, or improving data analysis workflows
+Contribution Theme;General Contributions;Systems;Software Architecture, Toolkit/Library, Language;...designing/implementing novel platforms/libraries/toolkits for developing or testing
+Contribution Theme;General Contributions;Software;Software Prototype;...writing or analyzing concrete implementations of tools / systems / applications
+Contribution Theme;General Contributions;STAR;State-of-the-art Survey;...conducting, structuring, and writing systematic literature reviews
+Contribution Theme;General Contributions;Domain_Task;Task Abstractions & Application Domains;...the practice of eliciting domain or task abstractions and challenges from specific application domains
+Contribution Theme;General Contributions;Theory;Taxonomy, Models, Frameworks, Theory;...deriving systematic characterizations of a particular space (e.g. design space, taxonomy of techniques), novel abstractions of concepts, discussions of formalisms
+Contribution Theme;General Contributions;VisDesign;Visual Representation Design;..designing data visualization / visual representations and/or practices/processes of visualization design
+Contribution Theme;General Contributions;OtherContrib;Other Contribution;...a contribution type that does not reasonabily fit in any other category
+Application Area;Application Area;CompSystems;Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases;...applications to the general computing domain incl. software, networks, security, databases, visualization (Vis4Vis) etc.
+Application Area;Application Area;LifeBio;Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics;...applications to the life sciences: incl. medicine, biology, bioinformatics, genomics, health informatics, or others
+Application Area;Application Area;MLStatsModel;Machine Learning, Statistics, Modelling, and Simulation Applications;"...applications to machine learning, statistics, modelling, or simulation applications (note: find ML for VIS under ""Techniques"" below)"
+Application Area;Application Area;ScienceEngr;Physical & Environmental Sciences, Engineering, Mathematics;...applications to physical & environmental sciences, engineering, or mathematics
+Application Area;Application Area;SocHum;Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work;...applications to the social sciences, education, and humanities incl. knowledge work such as intelligence analysis
+Application Area;Application Area;OtherApp;Other Application Areas;...applications to an application area that does not reasonably fit in any other category
+Application Area;Application Area;NAApp;Domain Agnostic;no special expertise on application areas is required for my paper
+Topic;Human Factors;Collab;Collaboration;...collaborative data analysis, collaborative workflows, and theories of collaboration
+Topic;Human Factors;Color;Color;...the use of color in visualization
+Topic;Human Factors;Storytelling;Communication/Presentation, Storytelling;...using visualization to communicate or present a narrative or story from data
+Topic;Human Factors;AnalyzeDecide;Data Analysis, Reasoning, Problem Solving, and Decision Making;...support of analytical reasoning, problem solving, decision-making, analysis workflows, and other related cognitive processes
+Topic;Human Factors;GenPublic;General Public;...the design and dissemination of tools for/to the general public / communication to the general public or mass audiences
+Topic;Human Factors;MixedInit;Mixed Initiative Human-Machine Analysis;...balancing computational and human effort for data analysis
+Topic;Human Factors;Perception;Perception & Cognition;...perception and cognition
+Topic;Human Factors;PersonalVis;Personal Visualization, Personal Visual Analytics;"...design of interactive visual representations for use in a personal context; analytical reasoning by visual representations for use in a personal context"
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;ClusterAgg;Data Clustering and Aggregation;...algorithmic and visualization approaches for aggregating or clustering data
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;DataMgmt;Data Management, Processing, Wrangling;...steps for cleaning, processing, and managing data
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;DimRed;Dimensionality Reduction;...the use of / techniques for reducing the number of variables under consideration
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;Features;Feature Detection, Extraction, Tracking & Transformation;... methods for finding, detecting, mining, extracting, retrieving, transforming, discovering and tracking data, features, patterns, knowledge
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;BigData;Large-Scale Data Techniques;...techniques specific to handling large amounts of data
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;ML;Machine Learning Techniques;...the use of machine learning in visualization / visual analytics
+Topic;Stats & Math, Machine Learning, Data Management Methods & Algorithms;Math;Mathematical Foundations & Numerical Methods;...mathematical foundations and numerical methods and their use
+Topic;Spatial Field Methods & Algorithms;CompTop;Computational Topology-based Techniques;...computational topology and/or topological abstractions and their use
+Topic;Spatial Field Methods & Algorithms;Isosurfaces;Isosurface Techniques;...extraction and use of isosurfaces and generalizations
+Topic;Spatial Field Methods & Algorithms;Flow;Vector, Tensor & Flow Visualization;...techniques for vector fields, tensor flow, tractography, and fluid mechanics
+Topic;Spatial Field Methods & Algorithms;Volumes;Volume Rendering;...rendering techniques and algorithms for direct visualization of volumetric data
+Topic;Evaluation Methods and Methodologies;CompBenchmark;Computational Benchmark Studies;...designing, conducting, and analyzing computational benchmark studies that for example compare performance results from running implemented techniques/algorithms
+Topic;Evaluation Methods and Methodologies;HumanQual;Human-Subjects Qualitative Studies;...qualitative methods and methodologies for human-subjects evaluation
+Topic;Evaluation Methods and Methodologies;HumanQuant;Human-Subjects Quantitative Studies;...quantitative methods and methodologies for human-subjects evaluation
+Topic;General Visualization Methods;Motion;Animation and Motion-related Techniques;...methods using animation or other forms for the display of motion
+Topic;General Visualization Methods;Art;Art & Graphic Design;...data art, art practice, art-science collaboration, graphic design practice, ...
+Topic;General Visualization Methods;Maps;Cartography, Maps;... design and use of maps and mapping technology
+Topic;General Visualization Methods;Charts;Charts, Diagrams, and Plots;...statistical graphics such as charts, diagrams, or plots (line/bar charts, etc.)
+Topic;General Visualization Methods;Comparison;Comparison and Similarity;...methods for visual comparison or determining similarity
+Topic;General Visualization Methods;Graphics;Computer Graphics Techniques;...techniques from the field of computer graphics, including raycasting, illustrative / non-photorealistic rendering, etc.
+Topic;General Visualization Methods;MultiView;Coordinated and Multiple Views;...linked views, multiple views, coordinated views, coordinated multiple views, or coupled views
+Topic;General Visualization Methods;ImageProcessing;Image and Signal Processing;...image and signal processing methods
+Topic;General Visualization Methods;Displays;Mobile, AR/VR/Immersive, Specialized Input/Display Hardware;...specialized interaction and display techniques and hardware (mobile, caves, heads-up displays, physicalization, tangibles,... and combinations of devices)
+Topic;General Visualization Methods;MultiRes;Multi-Resolution and Level of Detail Techniques;...visualization techniques for showing multiple levels of detail and resolution, including focus+context
+Topic;General Visualization Methods;Hardware;Specific Computing and Rendering Hardware;...how to use specific computing or rendering hardware for visualization (CPU/GPU clusters, etc)
+Topic;General Visualization Methods;Uncertainty;Uncertainty Visualization;...visually communicating uncertainty (of data, models, algorithmic results, or the visualization process)
+Topic;General Visualization Methods;OtherTopic;Other Topics and Techniques;...a visualization/visual analytics related topic/technique that does not reasonably fit in any category above

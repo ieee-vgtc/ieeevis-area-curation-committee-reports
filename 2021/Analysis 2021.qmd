@@ -1,0 +1,987 @@
+---
+title: 2021 VIS Area Curation Committee Executive Summary
+self-contained: true
+format: 
+  html: 
+    code-fold: true
+	theme: simplex
+	toc: true
+---
+
+## Summary
+
+We use submission and bidding information from VIS 2021 to analyze the impact of moving to an area model. Given the information we have access to, the move appears to be broadly successful, and we only make small recommendations on example descriptions of areas, and keywords to change. Our analysis suggests that submissions are relatively balanced across areas, keywords are (with a small exception) well distributed, and the unified PC appears to provide broad and overlapping coverage.
+
+Committee members: Alex Endert (chair), Steven Drucker, Issei Fujishiro, Christoph Garth, Heidi Lam, Heike Leitte, Carlos Scheidegger, Hendrik Strobelt, Penny Rheingans.
+
+Last edited: 2021-10-23.
+
+```{python}
+#| output: false
+
+import itertools
+
+import pandas as pd
+import numpy as np
+
+import plotly.io as pio
+import plotly.graph_objs as go
+import plotly.express as px
+
+pio.renderers.default = "notebook_connected"
+width = 740
+
+import sqlite3
+
+#### Data Preparation
+
+# static data – codes -> names etc.
+staticdata = dict(
+    decision = { 
+        'C': 'Accept',
+        'R': 'Reject',
+        'R-2nd': 'Reject',
+        'DR-S': 'Desk Reject (Scope)',
+        'DR-P': 'Desk Reject (Plagiarism)',
+    },
+    area = {
+        'T&E': 'Theoretical & Empirical',
+        'App': 'Applications',
+        'S&R': 'Systems & Rendering',
+        'R&I': 'Representations & Interaction',
+        'DTr': 'Data Transformations',
+        'A&D': 'Analytics & Decisions',
+    },
+    bid = { 
+        0: 'no bid',
+        1: 'want',
+        2: 'willing',
+        3: 'reluctant',
+        4: 'conflict'
+    },
+    stat = {
+        'Prim': 'Primary', 
+        'Seco': 'Secondary'
+    },
+    keywords = pd.read_csv("../data/2021/keywords.csv", sep=';'),
+    colnames = {
+        'confsubid': 'Paper ID',
+        'rid': 'Reviewer',
+        'decision': 'Decision',
+        'area': 'Area',
+        'stat': 'Role',
+        'bid': 'Bid'
+    }
+)
+
+dbcon = sqlite3.connect('../data/vis-area-chair.db')
+
+submissions_raw = pd.read_sql_query('SELECT * from submissions WHERE year = 2021', dbcon, 'sid')
+
+submissions = (submissions_raw
+    .join(
+        pd.read_sql_query('SELECT * from areas', dbcon, 'aid'), 
+        on='aid'
+    )
+    .assign(Keywords = lambda df: (pd
+        .read_sql_query('SELECT * FROM submissionkeywords', dbcon, 'sid')
+        .loc[df.index]
+        .join(
+            pd.read_sql_query('SELECT * FROM keywords', dbcon, 'kid'), 
+            on='kid'
+        )
+        .keyword
+        .groupby('sid')
+            .apply(list)
+    ))
+    .assign(**{'# Keywords': lambda df: df.Keywords.apply(len)})
+    .replace(staticdata)
+    .rename(columns = staticdata['colnames'])
+    .drop(columns = ['legacy', 'aid', 'year'])
+    .set_index('Paper ID')
+)
+
+bids_raw = (pd
+    .read_sql_query('SELECT * from reviewerbids', dbcon)
+    .join(submissions_raw['confsubid'], on='sid')
+    .replace(staticdata)
+    .rename(columns = staticdata['colnames'])
+)
+
+bids = (bids_raw
+    .query('Bid != "no bid"')
+    .drop(columns = ['sid'])
+    [['Reviewer','Paper ID', 'Bid']]
+    .reset_index(drop = True)
+)
+
+matchscores = (bids_raw
+    [['Reviewer','Paper ID','match']]
+    .set_index(['Reviewer', 'Paper ID'])
+    .match
+    .unstack(level=1)
+)
+
+assignments = (bids_raw
+    .query('Role != ""')
+    [['Reviewer', 'Paper ID', 'Role']]
+    .reset_index(drop = True)
+)
+
+del dbcon
+
+
+#### Plot Defaults
+
+acc_template = go.layout.Template()
+
+acc_template.layout = dict(
+    font = dict( 
+        family='Fira Sans',
+        color = 'black',
+        size = 13
+    ),
+    title_font_size = 14,
+    plot_bgcolor = 'rgba(255,255,255,0)',
+    paper_bgcolor = 'rgba(255,255,255,0)',
+    margin = dict(pad=10),
+    xaxis = dict(
+        title = dict( 
+            font = dict( family='Fira Sans Medium', size=13 ),
+            standoff = 10
+        ),
+        gridcolor='lightgray',
+        gridwidth=1,
+        automargin = True,
+        fixedrange = True,
+    ),
+    yaxis = dict(
+        title = dict( 
+            font = dict( family='Fira Sans Medium', size=13 ),
+            standoff = 10,
+        ),
+        gridcolor='lightgray',
+        gridwidth=1,
+        automargin = True,
+        fixedrange = True,
+    ),
+    legend=dict(
+        title_font_family="Fira Sans Medium",
+    ),
+    colorway = px.colors.qualitative.T10,
+    hovermode = 'closest',
+    hoverlabel=dict(
+        bgcolor="white",
+        bordercolor='lightgray',
+        font_color = 'black',
+        font_family = 'Fira Sans'
+    ),
+)
+
+acc_template.data.bar = [dict(
+    textposition = 'inside',
+    insidetextanchor='middle',
+    textfont_size = 12,
+)]
+
+px.defaults.template = acc_template
+
+px.defaults.category_orders = {
+    'Decision': list(staticdata['decision'].values()), 
+    'Area': list(staticdata['area'].values()),
+    'Short Name': staticdata['keywords']['Short Name'].tolist(),
+}
+
+config = dict(
+    displayModeBar = False,
+    scrollZoom = False,
+    responsive = False
+)
+
+def aspect(ratio):
+    return { 'width': 900, 'height': int(ratio*900) }
+
+# useful data sub-products
+
+k_all = (submissions
+    .join(submissions['Keywords']
+        .explode()
+        .rename('Keyword')
+    )
+    .reset_index(level = 0)
+    .merge(staticdata['keywords'], on='Keyword')
+)
+
+k_total = staticdata['keywords'].merge(
+    k_all.value_counts(['Short Name'])
+         .rename('# Submissions')
+         .reset_index(),
+    how = 'outer'
+)
+
+k_cnt = (k_all
+    .value_counts('Short Name', sort=False)
+    .rename('c')
+    .to_frame()
+    .merge(staticdata['keywords'], on='Short Name')
+)
+
+```
+
+<style>
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Fira Sans Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveRhf6Xl7Glw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}</style>
+
+## Overview
+
+This report summarizes the process, findings, and recommendations by the VIS Area Curation Committee (ACC) regarding the areas and keywords used for paper submissions to IEEE VIS 2021. According to the Charter, the goal of this committee is to analyze and report how submissions made use of the areas and keywords to describe their contribution. It is important to understand when these descriptors no longer adequately cover the breadth of research presented at VIS.
+
+This report is generated by members of the ACC for the current year, and prepared for the VSC. Upon review, it will be linked from the IEEE VIS website. The conclusions and discussion points are based on submission and reviewer data from IEEE VIS 2021. The report and analysis performed is focused on the use of keywords, areas, and reviewer matching. Thus, there are likely other aspects of conference organization which are not covered (but could be considered). 
+
+The report is broken down into the following sections. First, the data and analysis process is described. It shows which data we used, where it is stored, and how it is obtained. These processes can be adapted for future years of this committee. Second, a discussion of key findings from our analysis. These are only highlights, with the complete analyses linked. Finally, it includes a collection of recommendations and noteworthy findings which should be “watched” next year to see if trends emerge. 
+
+## Data and Process
+
+The data used to perform this analysis is a combination of paper submission data and reviewer bidding data. Both sets were anonymized to minimize the ability to identify IPC members, authors, or reviewers. The scripts used to export the data from PCS and anonymize it can be found [here](https://github.com/ieee-vgtc/ieeevis-area-chair-committee-data/tree/master/anonymization-scripts).
+
+The analysis of the data in this year uses the anonymized CSV files obtained directly from PCS. You can see the source code used to process and generate the plots in this document by clicking on the "Code" buttons, which will fold out the Python code used. 
+
+In order to facilitate longitudinal studies of this data, we are also providing a `sqlite` database with the 2021 data in an attempt to make it easier to incorporate 2022 data and so on. The code that generates this database can be found [here](https://github.com/ieee-vgtc/ieeevis-area-chair-committee-reports).
+
+## Data Highlights
+
+We analyzed anonymized data containing information about the full paper submissions to VIS 2021, the reviews of these submissions, and the IPC bidding preferences. We analyzed this data to understand how well the areas and keywords characterize the body of work submitted this year. We also analyzed the IPC bidding information to understand how well the expertise of the IPC members covers the submissions. Below, we show highlights of our findings.
+
+Note that in the the analysis that follows, the submission/paper IDs and reviewer IDs are anonymized through a randomizer, and are _not_ the IDs used in PCS submissions and reviewers.
+
+**Submissions per Area**. We wanted to understand how submissions were distributed by area, including acceptance decisions. Submissions to each area were within reasonable upper and lower limits, and decisions did not appear partial to any individual area.
+
+```{python}
+tmp = (submissions
+    .value_counts(['Area', 'Decision'])
+    .reset_index()
+    .rename(columns = {0: 'count'})
+)
+
+fig = px.bar(tmp,
+    x = 'count',
+    y = 'Area',
+    barmode = 'stack',
+    orientation = 'h',
+    color = 'Decision',
+    text = 'count',
+    custom_data = ['Decision'],
+).update_layout(
+    title = 'Submissions by area',
+    xaxis_title = 'Number of Submissions',
+    **aspect(0.35)
+).update_traces(
+    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',
+).show(config=config)
+```
+
+**Keywords Used**. We also analyzed how often keywords were used in the submissions. The frequency of keywords used is reasonable. The one exception which should be watched for next year is “Application-Motivated Visualization”, which may require further specification or description.
+
+# Full Analysis
+
+(NB: Some of the plots shown above are repeated here for the sake of completeness.)
+
+## Submissions
+
+How many papers were submitted to each area, and what is the breakdown of decisions?
+
+```{python}
+
+tc = [ dict(n=c, p='All', f=c) for c in k_cnt['Category'].unique() ]
+ts = [ dict(n=s, p=c,  f=c) for _, c, s in k_cnt[['Category', 'Subcategory']].drop_duplicates().itertuples() if c != s ]
+tl = [ dict(n=r['Short Name'], p=r.Category if r.Category == r.Subcategory else r.Subcategory, c=r.c, f=r.Category) for _, r in k_cnt.iterrows() ]
+
+tree = pd.DataFrame(tc + ts + tl).fillna(0)
+
+px.treemap(tree,
+    names = tree.n,
+    parents = tree.p,
+    values = tree.c,
+    color = tree.f,
+).update_layout(
+    margin = {'t': 0, 'b': 0, 'l': 0, 'r': 0},
+    uniformtext=dict(minsize=10),
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = "'%{label}' specified in %{value} submissions<extra></extra>",
+    marker_depthfade = 'reversed',
+).show(config=config)
+```
+
+```{python}
+# do a manual histogram to include non-specified keywords
+
+px.bar(k_total,
+    x = 'Short Name',
+    y = '# Submissions',
+    color = 'Category',
+).update_traces(
+    hovertemplate = "'%{x}' specified in %{y} submissions<extra></extra>",
+).update_layout(
+    xaxis_tickfont_size = 8,
+    xaxis_dtick = 1,
+    yaxis_dtick = 20,
+    hovermode = 'closest',
+    title = 'Frequency of keywords across submissions',
+    **aspect(0.4)
+).show(config=config)
+```
+
+How are keywords distributed across areas?
+
+```{python}
+# do a manual histogram to include non-specified keywords
+k_cnt = staticdata['keywords'].merge(
+    pd.DataFrame(staticdata['area'].values(), columns = ['Area']), 
+    how = 'cross'
+).merge(
+    k_all
+        .value_counts(['Short Name', 'Area'])
+        .rename('# Submissions')
+        .reset_index(),
+    how = 'outer'
+).fillna(1e-10) # needed for sorting, Plotly bug?
+
+px.bar(k_cnt,
+    x = 'Short Name',
+    y = '# Submissions',
+    color = 'Area',
+    custom_data = ['Area']
+).update_traces(
+    hovertemplate = 'Keyword "%{x}" specified by %{y} submissions from area "%{customdata}"<extra></extra>'
+).update_layout(
+    barmode = 'stack',
+    xaxis_dtick = 1,
+    xaxis_tickfont_size = 8,
+    xaxis_fixedrange = True,
+    yaxis_fixedrange = True,
+    xaxis_categoryorder = 'total descending',
+    title = 'Frequency of keywords across submissions, by area',
+    **aspect(0.4)
+).show(config=config)
+```
+
+How many submissions specified a given number of keywords?
+
+```{python}
+tmp = (submissions
+    .value_counts(['# Keywords', 'Area'])
+    .rename('# Submissions')
+    .reset_index()
+)
+
+px.bar(tmp,
+    x = '# Keywords', 
+    y = '# Submissions',
+    barmode = 'stack',
+    color = 'Area',
+    custom_data=['Area'],
+).update_traces(
+    hovertemplate = '%{y} submissions specified %{x} keywords in area "%{customdata}"<extra></extra>',
+).update_layout(
+    xaxis_dtick = 1,
+    title = 'Keyword count per submission',
+    **aspect(0.4)
+).show(config=config)
+```
+
+Does keyword count correlate with decision?
+
+```{python}
+def group_stat(g):
+    return pd.DataFrame({
+        '# Submissions': g,
+        '% Submissions': g/g.sum(),
+        'Total': g.sum()
+    })
+
+tmp = (submissions
+    .assign(**{'# Keywords':
+        submissions['# Keywords']
+            .map(lambda x: str(x) if x < 10 else '≥10')
+    })
+    .value_counts(['# Keywords', 'Decision'])
+    .groupby(level=0)
+    .apply(group_stat)
+    .reset_index()
+)
+
+px.bar(tmp,
+    x = '# Keywords', 
+    y = '# Submissions',
+    barmode = 'stack',
+    color = 'Decision',
+    custom_data=['Decision', '% Submissions', 'Total'],
+).update_traces(
+    hovertemplate = '%{y} (%{customdata[1]:%}) of %{customdata[2]} submissions with %{x} keywords had decision "%{customdata[0]}"<extra></extra>',
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_type = 'category',
+    xaxis_categoryorder = 'category ascending',
+    title = 'Decisions by keyword count',
+    **aspect(0.3)
+).show(config=config)
+```
+
+Do specific keywords correlate with decision?
+
+```{python}
+# do a manual histogram to include non-specified keywords
+k_dec = (k_all
+    .value_counts(['Short Name', 'Decision'])
+    .groupby(level = 0)
+    .apply(group_stat)
+    .reset_index()
+)
+
+px.bar(k_dec,
+    x = 'Short Name',
+    y = '# Submissions',
+    color = 'Decision',
+    custom_data = ['Decision', '% Submissions', 'Total'],
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_tickfont_size = 8,
+    title = 'Decision by presence of keyword',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = "%{y} of %{customdata[2]} submissions (%{customdata[1]:%}) specifying keyword '%{x}' had decision '%{customdata[0]}<extra></extra>",
+).show(config=config)
+```
+
+How often are keywords "esoteric", i.e. used alone?
+
+```{python}
+tmp = (k_all.set_index('Paper ID')
+    .value_counts(['Short Name', 'Category', '# Keywords'])
+    .rename('# Submissions')
+    .reset_index()
+    .assign(**{'# Co-Keywords': (lambda x: x['# Keywords']-1)})
+)
+
+px.box(tmp,
+    x = 'Short Name',
+    y = '# Co-Keywords',
+    color = 'Category',
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_tickfont_size = 8,
+    **aspect(0.4)
+).update_traces(
+    width = .5,
+    line_width = 1,
+).show(config=config)
+```
+
+How often are pairs of keywords specified together?
+
+```{python}
+k_pairs = (k_all
+    .groupby('Paper ID')
+    .apply(lambda g: pd.DataFrame(itertools.combinations(g['Short Name'].values, 2)))
+    .join(submissions['Decision'])
+)
+
+tmp = k_pairs.groupby([0,1]).size().nlargest(40)
+tmp = (
+    k_pairs
+    .set_index([0,1])
+    .loc[tmp.index]
+    .assign(**{'Keyword Pair': lambda df: [' + '.join(v) for v in df.index.values]})
+    .value_counts(['Keyword Pair', 'Decision'], sort=False)
+    .rename('# Submissions')
+    .reset_index()
+)
+
+px.bar(tmp,
+    x = 'Keyword Pair',
+    y = '# Submissions',
+    color = 'Decision',
+    custom_data = ['Decision'],
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_categoryorder = 'total descending',
+    xaxis_tickfont_size = 8,
+    title = 'Top 40 keyword pairs',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = '%{y} submissions with keyword pair "%{x}" had decision "%{customdata[0]}"<extra></extra>',
+).show(config=config)
+```
+
+```{python}
+cooc = (k_pairs
+    .groupby([0,1])
+    .size()
+    .unstack()
+    .reindex(
+        index = staticdata['keywords']['Short Name'], 
+        columns = staticdata['keywords']['Short Name']
+    )
+    .fillna(0)
+)
+
+cooc = (cooc + cooc.T)
+np.fill_diagonal(cooc.values, None)
+
+px.imshow(cooc, 
+    color_continuous_scale='portland',
+).update_traces(
+    connectgaps = False,
+    hoverongaps = False,
+    hovertemplate = "Keywords '%{x}' and '%{y}' are jointly specified in %{z} submissions<extra></extra>",
+    colorbar_title = '# Submissions',
+).update_layout(    
+    xaxis_dtick = 1,
+    xaxis_tickfont_size = 7,
+    yaxis_dtick = 1,
+    yaxis_tickfont_size = 7,
+    hovermode = 'closest',
+    xaxis_showgrid = False,
+    yaxis_showgrid = False,
+    title = 'Co-occurrence of keywords',
+    **aspect(.7)
+).show(config=config)
+```
+
+```{python}
+k_triples = (k_all
+    .groupby('Paper ID')
+    .apply(lambda g: pd.DataFrame(itertools.combinations(g['Short Name'].values, 3)))
+    .join(submissions['Decision'])
+)
+
+tmp = k_triples.groupby([0,1,2]).size().nlargest(40)
+tmp = (
+    k_triples
+    .set_index([0,1,2])
+    .loc[tmp.index]
+    .assign(**{'Keyword Triple': lambda df: [' + '.join(v) for v in df.index.values]})
+    .value_counts(['Keyword Triple', 'Decision'], sort=False)
+    .rename('# Submissions')
+    .reset_index()
+)
+
+px.bar(tmp,
+    x = 'Keyword Triple',
+    y = '# Submissions',
+    color = 'Decision',
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_categoryorder = 'total descending',
+    xaxis_tickfont_size = 8,
+    title = 'Top 40 keyword triples',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = '%{y} submissions with keyword pair "%{x}" had decision "%{fullData.name}"<extra></extra>',
+).show(config=config)
+```
+
+What is the distribution of match scores by keyword?
+
+```{python}
+tmp = (matchscores.T
+    .stack()
+    .rename('Score')
+    .loc[lambda x: x > -1.0]
+    .reset_index()
+    .merge(k_all.loc[:,['Paper ID', 'Short Name', 'Category']], on='Paper ID')
+    .reset_index()
+)
+
+px.box(tmp,
+    x = 'Short Name',
+    y = 'Score',
+    color = 'Category',
+).update_layout(
+    xaxis_dtick = 1,
+    xaxis_tickfont_size = 8,
+    title = 'Distribution of match scores per keyword',
+    **aspect(0.4)
+).update_traces(
+    width = .5,
+    line_width = 1,
+).show(config=config)
+```
+
+What is the number of "high" match scores, per submission?
+
+```{python}
+tmp = (matchscores.T
+    .drop(submissions
+        .query('Decision not in ["Accept", "Reject"]')
+        .index
+    )
+    .where(lambda x: x > -1.0, None)
+)
+
+threshold = [0.5, 0.7, 0.9]
+
+tmp = pd.concat([ 
+    (tmp >= q).agg('sum', axis=1).rename('≥ %.1f' % q) 
+    for q in threshold 
+], axis=1)
+
+px.bar(tmp,
+    barmode = 'overlay',
+    opacity = 1,
+).update_layout(
+    legend_title = 'Match Score',
+    bargap = 0.1,
+    xaxis_type = 'category',
+    xaxis_tickfont_size = 8,
+    yaxis_title = '# Reviewers',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = 'Submission %{x} has %{y} matches %{fullData.name}<extra></extra>'
+).show(config=config)
+```
+
+Which are the 10 submissions with the lowest number of "good" (≥ 0.5) match scores?
+
+```{python}
+ind = tmp['≥ 0.5'].nsmallest(10).index
+
+(tmp
+    .merge(bids
+        .query('`Paper ID` in @ind and Bid in ["willing", "want"]')
+        .value_counts(['Paper ID'])
+        .rename("Pos. Bids"),
+        on='Paper ID')
+    .merge(submissions, on='Paper ID')
+    .sort_values('≥ 0.5')
+    .assign(Keywords = lambda df: df.Keywords
+        .apply(lambda x: ', '.join(
+            [staticdata['keywords'].set_index('Keyword').loc[k, 'Short Name'] for k in x]
+    )))
+)
+```
+
+What is the number of "high" match scores, per keyword?
+
+```{python}
+tmp = (matchscores.T
+    .drop(submissions
+        .query('Decision not in ["Accept", "Reject"]')
+        .index
+    )
+    .where(lambda x: x > -1.0, None)
+)
+
+tmp = (k_all
+    .set_index('Paper ID')['Short Name']
+    .to_frame()
+    .merge(tmp, left_index=True, right_index=True, how='inner')
+    .set_index('Short Name')
+)
+
+tmp = (pd
+    .concat([ 
+        (tmp >= q).agg('sum', axis=1).rename('≥ %.1f' % q) 
+        for q in threshold 
+    ], axis=1)
+    .groupby('Short Name')
+    .mean()
+)
+
+px.bar(tmp,
+    barmode = 'overlay',
+    opacity = 1,
+).update_layout(
+    legend_title = 'Match Score',
+    bargap = 0.1,
+    xaxis_dtick = 1,
+    xaxis_type = 'category',
+    xaxis_tickfont_size = 8,
+    yaxis_title = '# Matches',
+    title = 'Match scores by keyword',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = 'Keyword %{x} has %{y:.1f} matches %{fullData.name}<extra></extra>'
+).show(config=config)
+```
+
+## Bidding
+
+How many bids did individual PC members make?
+
+```{python}
+tmp = (bids
+    .value_counts(['Reviewer', 'Bid'], sort=False)
+    .rename('# Bids')
+    .reset_index()
+)
+
+px.bar(tmp,
+    x = 'Reviewer',
+    y = '# Bids',
+    color = 'Bid'
+).update_layout(
+    xaxis_type = 'category',
+    xaxis_categoryorder = 'total descending',
+    xaxis_showticklabels = False,
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = 'Reviewier %{x} made %{y} "%{fullData.name}" bids.<extra></extra>'
+).show(config=config)
+```
+
+How many (positive) bids did each submission receive?
+
+```{python}
+tmp = (bids
+    .value_counts(['Paper ID', 'Bid'], sort=False)
+    .rename('# Bids')
+    .reset_index()
+    .loc[lambda x: x.Bid.isin(['want', 'willing'])]
+)
+
+px.bar(tmp,
+    x = 'Paper ID',
+    y = '# Bids',
+    color = 'Bid'
+).update_layout(
+    xaxis_type = 'category',
+    xaxis_categoryorder = 'total descending',
+    xaxis_showticklabels = False,
+    title = 'Positive Bids per Paper',
+    **aspect(0.4),
+).update_traces(
+    hovertemplate = 'Paper %{x} received %{y} "%{fullData.name}" bids.<extra></extra>',
+).show(config=config)
+```
+
+```{python}
+popular = 15
+
+tmp = (bids
+    .query('Bid in ["want", "willing"]')
+    .value_counts(['Paper ID', 'Bid'], sort=False)
+    .unstack()
+    .fillna(0)
+    .groupby(['want', 'willing'])
+    .apply(lambda g: pd.Series({'ids': g.index.values, 'count': g.index.size}))
+    .reset_index()
+    .assign(popular = 
+            lambda df: np.where( df['willing']+df['want']>=popular, "≥ %d" % popular, "< %d" % popular)
+))
+
+px.scatter(tmp,
+    x = 'willing',
+    y = 'want',
+    size = 'count',
+    color = 'popular',
+    custom_data = ['count', 'ids'],
+).update_layout(
+    legend_title = 'Total Pos. Bids',
+    title = 'Distribution of Positive Bids',
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = '%{customdata[0]} papers received %{x} "willing" and %{y} "want" bids',
+).show(config=config)
+```
+
+Does the presence of specific keywords correlate with bidding?
+
+We run a reviewer-independent ridge regression model where the
+independent variable is the overall reviewer interest, and the
+dependent variable is the (weighted) presence of a keyword. We measure
+interest by giving each "willing" or "want" bid a score of 1:
+
+```{python}
+tmp_3 = staticdata['keywords'].copy()
+tmp_3['ix'] = list(range(len(tmp_3)))
+tmp_3 = tmp_3[['Short Name', 'ix']]
+tmp_1 = k_all[['Paper ID', 'Short Name']]
+tmp_2 = bids[(bids['Bid'] == 'willing') | (bids['Bid'] == 'want')]
+df = tmp_1.merge(tmp_3, on="Short Name").merge(tmp_2, on="Paper ID")
+df['weight'] = 2
+df.loc[df['Bid'] == 'willing', 'weight'] = 1
+total_weight = df[['Paper ID', 'ix', 'weight']].groupby(['Paper ID', 'ix']).sum().reset_index()
+keyword_count = tmp_1.groupby(['Paper ID']).count().reset_index()
+keyword_count['Keyword Weight'] = 1.0/keyword_count['Short Name']
+total_weight = total_weight.merge(keyword_count[['Paper ID', 'Keyword Weight']], on="Paper ID")
+nrows = max(total_weight['Paper ID']) + 1
+ncols = max(total_weight['ix']) + 1
+design_matrix = np.zeros((nrows, ncols))
+design_matrix.shape
+rhs = np.zeros(nrows)
+
+# this is embarrassing, there must be a fancy pandas way of doing it.
+# someone else can figure it out.
+for i, row in total_weight.iterrows():
+    design_matrix[int(row['Paper ID']), int(row['ix'])] = row['Keyword Weight']
+    rhs[int(row['Paper ID'])] = row['weight']
+import scipy.linalg
+from sklearn.linear_model import Ridge
+# Ideally, we find the best regularizer by splitting into training/validation,
+# but on inspection the order doesn't seem to change too much 
+lr = Ridge(1).fit(design_matrix, rhs)
+lr.coef_
+tmp_3['Importance'] = lr.coef_
+tmp_3 = tmp_3.sort_values(by=['Importance']).merge(staticdata['keywords'], on='Short Name', )
+
+px.scatter(tmp_3, 
+    x="Short Name", 
+    y="Importance", 
+    color='Category',
+    custom_data = ['Keyword'],
+).update_layout(
+    title = 'Keyword Importance for Bidding',
+    xaxis_dtick = 1,
+    xaxis_categoryorder = 'trace',
+    xaxis_tickfont_size = 8,
+    **aspect(0.4)
+).update_traces(
+    hovertemplate = 'Importance of "%{customdata[0]}": %{y}<extra></extra>'
+).show(config=config)
+```
+
+## Assignment
+
+How many papers were PC members assigned?
+
+```{python}
+tmp = assignments.value_counts(['Reviewer']).rename('# Assignments').reset_index()
+
+px.histogram(tmp,
+    x = '# Assignments',
+).update_traces(
+    hovertemplate = '%{y} reviewers were assigned %{x} submissions',
+).update_layout(
+    bargap = .1,
+    yaxis_title = '# PC members',
+    title = 'Distribution of assignments',
+    **aspect(0.4)
+).show(config=config)
+```
+
+```{python}
+tmp = assignments.value_counts(['Reviewer', 'Role']).reset_index()
+
+px.histogram(tmp,
+    x = 0,
+    color = 'Role',
+).update_traces(
+    hovertemplate = '%{y} reviewers were assigned %{x} submissions as %{fullData.name}<extra></extra>'
+).update_layout(
+    bargap = .1,
+    barmode = 'group',
+    xaxis_title = '# Assignments',
+    yaxis_title = '# Members',
+    title = 'Distribution of assignments',
+    **aspect(0.4)
+).show(config=config)
+```
+
+How many areas did reviewers review in?
+
+```{python}
+tmp = (assignments
+    .merge(submissions, on='Paper ID')
+    .groupby('Reviewer')
+    .apply(lambda x: len(x['Area'].unique()))
+    .reset_index())
+
+px.histogram(tmp,
+    x = 0,
+).update_traces(
+    hovertemplate = '%{y} PC members were assigned submissions from %{x} area(s)',
+).update_layout(
+    bargap = .1,
+    xaxis_title = '# Areas',
+    yaxis_title = '# PC members',
+    **aspect(0.4),
+).show(config=config)
+```
+
+How do match scores correlate with bids?
+
+```{python}
+tmp = bids.assign(
+    Score = bids.apply(lambda x: (matchscores.loc[x['Reviewer'], x['Paper ID']]), axis=1),
+    Area  = bids.apply(lambda x: (submissions.loc[x['Paper ID'], 'Area']), axis=1) 
+).query('Score > -1.0')
+
+px.box(tmp,
+    x = 'Bid',
+    y = 'Score',
+    color = 'Bid',
+).update_layout(
+    showlegend = False,
+    xaxis_categoryorder = 'array',
+    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],
+    **aspect(0.4)
+).update_traces(
+    line_width = 2,
+    boxmean = True
+).show(config=config)
+```
+
+```{python}
+px.violin(tmp,
+    x = 'Bid',
+    y = 'Score',
+    color = 'Area',
+    box = True,
+).update_layout(
+    # showlegend = False,
+    title = 'Match scores by bid by area',
+    xaxis_categoryorder = 'array',
+    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],
+    violingap=0.2, 
+    violingroupgap=0.1,
+    **aspect(0.4)
+).update_traces(
+    box_line_color = 'black',
+    box_line_width = 1,
+    line_width = 0,
+    meanline_visible=True,
+    marker_size = 4,
+    # boxpoints = 'outliers',
+).show(config=config)
+```
+
+How often were reviewers assigned submissions that they bid on?
+
+```{python}
+tmp = (
+    assignments
+        .merge(bids, on=['Reviewer', 'Paper ID'], how='left')
+        .value_counts(['Role', 'Bid'])
+        .rename('Reviewers')
+        .reset_index()
+)
+
+fig = px.bar(tmp,
+    y = 'Reviewers',
+    x = 'Role',
+    color = 'Bid',
+    custom_data = ['Bid']
+).update_traces(
+    hovertemplate = '%{y} PC members assigned as %{x} bid %{customdata}<extra></extra>',
+).update_layout(
+    title = "Assignment by bidding",
+    **aspect(0.4),
+).show(config=config)
+```
+
