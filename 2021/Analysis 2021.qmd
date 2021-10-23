@@ -258,11 +258,9 @@ The report is broken down into the following sections. First, the data and analy
 
 ## Data and Process
 
-The data used to perform this analysis is a combination of paper submission data and reviewer bidding data. Both sets were anonymized to minimize the ability to identify IPC members, authors, or reviewers. The scripts used to export the data from PCS and anonymize it can be found [here](https://github.com/ieee-vgtc/ieeevis-area-chair-committee-data/tree/master/anonymization-scripts).
-
-The analysis of the data in this year uses the anonymized CSV files obtained directly from PCS. You can see the source code used to process and generate the plots in this document by clicking on the "Code" buttons, which will fold out the Python code used. 
-
-In order to facilitate longitudinal studies of this data, we are also providing a `sqlite` database with the 2021 data in an attempt to make it easier to incorporate 2022 data and so on. The code that generates this database can be found [here](https://github.com/ieee-vgtc/ieeevis-area-chair-committee-reports).
+The data used to perform this analysis is a combination of paper submission data and reviewer bidding data. Both sets were anonymized to minimize the ability to identify IPC members, authors, or reviewers. The analysis of the data in this year uses the anonymized CSV files obtained directly from PCS. You can see the source code used to process and generate the plots in this document by clicking on the "Code" buttons, which will fold out the Python code used.
+In order to facilitate longitudinal studies of this data, we are also providing a `sqlite` database with the 2021 data in an attempt to make it easier to incorporate 2022 data and so on. 
+This database (as well as the source code of this document) can be found [here](https://github.com/ieee-vgtc/ieeevis-area-curation-committee-reports/)
 
 ## Data Highlights
 
