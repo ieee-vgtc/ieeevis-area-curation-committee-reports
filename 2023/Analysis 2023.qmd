@@ -1,0 +1,2660 @@
+{
+ "cells": [
+  {
+   "cell_type": "raw",
+   "id": "29836d54",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% raw\n"
+    }
+   },
+   "source": [
+    "---\n",
+    "title: 2023 VIS Area Curation Committee Executive Summary\n",
+    "self-contained: true\n",
+    "format:\n",
+    "  html: \n",
+    "    code-fold: true\n",
+    "    theme: simplex\n",
+    "    toc: true\n",
+    "    jupyter: python3\n",
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e61097c3",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Summary\n",
+    "\n",
+    "\n",
+    "This report summarizes the findings, recommendations, and process by the VIS Area Curation Committee (ACC) regarding the areas and keywords used for paper submissions to IEEE VIS 2022. It is based on the 2021 and 2022 ACC committee reports. According to the Charter, the goal of this committee is to analyze and report how submissions made use of the areas and keywords to describe their contribution. It is important to understand when these descriptors no longer adequately cover the breadth of research presented at VIS.\n",
+    "\n",
+    "We use submission and bidding information from VIS 2023 to analyze the impact of moving to an area model. \n",
+    "\n",
+    "**Given the information we have access to, the move appears to be broadly successful, and we do not make recommendations for any changes at this time.** \n",
+    "\n",
+    "Our analysis suggests that submissions are relatively balanced across areas, keywords are (with a small exception) well distributed, and the unified PC appears to provide broad and overlapping coverage.\n",
+    "\n",
+    "The full data and source code to rebuild this project are available [here](https://github.com/ieee-vgtc/ieeevis-area-curation-committee-reports).\n",
+    "\n",
+    "Committee members 2023: Steven Drucker (chair), Jean-Daniel Fekete, Ingrid Hotz,  David Laidlaw, Alexander Lex, Torsten Möller, Michael Papka, Hendrik Strobelt, Shigeo Takahashi.\n",
+    "\n",
+    "Committee members 2022: Steven Drucker (chair), Ingrid Hotz,  David Laidlaw, Heike Leitte, Torsten Möller, Carlos Scheidegger, Hendrik Strobelt, Shigeo Takahashi, Penny Rheingans.\n",
+    "\n",
+    "Committee members 2021: Alex Endert (chair), Steven Drucker (next chair), Issei Fujishiro, Christoph Garth, Heidi Lam, Heike Leitte, Carlos Scheidegger, Hendrik Strobelt, Penny Rheingans.\n",
+    "\n",
+    "Last edited: 2023-09-20.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b8c83cfc",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import itertools\n",
+    "\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "# Import the necessaries libraries\n",
+    "import plotly.offline as pio\n",
+    "import plotly.graph_objs as go\n",
+    "import plotly.express as px\n",
+    "#pio.renderers.default = \"notebook_connected\"\n",
+    "# Set notebook mode to work in offline\n",
+    "pio.init_notebook_mode()\n",
+    "width = 750\n",
+    "\n",
+    "import sqlite3\n",
+    "\n",
+    "#### Data Preparation\n",
+    "\n",
+    "# static data – codes -> names etc.\n",
+    "staticdata = dict(\n",
+    "    decision = { \n",
+    "        'C': 'Confer vs. cond Accept', # relevant for the 2020 and 2021 data have a different meaning\n",
+    "        'A': 'Accept', # for the 2020 data\n",
+    "        'A2': 'Accept', # after the second round, should be 120 in 2022\n",
+    "        'R': 'Reject', # reject after the first round -- should be 322 in 2022\n",
+    "        'R2': 'Reject in round 2', # reject after the second round -- should be 2 in 2022\n",
+    "        'R-2nd': 'Reject in round 2', \n",
+    "        'DR-S': 'Desk Reject (Scope)', # should be 7 in 2022\n",
+    "        'DR-P': 'Desk Reject (Plagiarism)', # should be 4 in 2022\n",
+    "        'AR-P': 'Admin Reject (Plagiarism)', # should be 1 in 2022\n",
+    "        'DR-F': 'Desk Reject (Format)', # should be 4 in 2022\n",
+    "    },\n",
+    "    FinalDecision = { # Just flatten to Accept and Reject\n",
+    "        'C': 'Accept', \n",
+    "        'A': 'Accept', # for the 2020 data\n",
+    "        'A2': 'Accept', # after the second round, should be 120 in 2022\n",
+    "        'R': 'Reject', # reject after the first round -- should be 322 in 2022\n",
+    "        'R2': 'Reject', # reject after the second round -- should be 2 in 2022\n",
+    "        'R-2nd': 'Reject', \n",
+    "        'DR-S': 'Reject', # should be 7 in 2022\n",
+    "        'DR-P': 'Reject', # should be 4 in 2022\n",
+    "        'AR-P': 'Reject', # should be 1 in 2022\n",
+    "        'DR-F': 'Reject', # should be 4 in 2022\n",
+    "    },\n",
+    "    area = {\n",
+    "        'T&E': 'Theoretical & Empirical',\n",
+    "        'App': 'Applications',\n",
+    "        'S&R': 'Systems & Rendering',\n",
+    "        'R&I': 'Representations & Interaction',\n",
+    "        'DTr': 'Data Transformations',\n",
+    "        'A&D': 'Analytics & Decisions',\n",
+    "    },\n",
+    "    bid = { \n",
+    "        0: 'no bid',\n",
+    "        1: 'want',\n",
+    "        2: 'willing',\n",
+    "        3: 'reluctant',\n",
+    "        4: 'conflict'\n",
+    "    },\n",
+    "    stat = {\n",
+    "        'Prim': 'Primary', \n",
+    "        'Seco': 'Secondary'\n",
+    "    },\n",
+    "    keywords = pd.read_csv(\"./data/2021/keywords.csv\", sep=';'), # 2021 is correct as there was no new keywords file in 2022\n",
+    "    colnames = {\n",
+    "        'confsubid': 'Paper ID',\n",
+    "        'rid': 'Reviewer',\n",
+    "        'decision': 'Decision',\n",
+    "        'area': 'Area',\n",
+    "        'stat': 'Role',\n",
+    "        'bid': 'Bid'\n",
+    "    }\n",
+    ")\n",
+    "\n",
+    "dbcon = sqlite3.connect('./data/vis-area-chair.db')\n",
+    "\n",
+    "submissions_raw20 = pd.read_sql_query('SELECT * from submissions WHERE year = 2020', dbcon, 'sid')\n",
+    "submissions_raw21 = pd.read_sql_query('SELECT * from submissions WHERE year = 2021', dbcon, 'sid')\n",
+    "submissions_raw22 = pd.read_sql_query('SELECT * from submissions WHERE year = 2022', dbcon, 'sid')\n",
+    "submissions_raw23 = pd.read_sql_query('SELECT * from submissions WHERE year = 2023', dbcon, 'sid')\n",
+    "submissions_raw = pd.read_sql_query('SELECT * from submissions', dbcon, 'sid')\n",
+    "#print(submissions_raw23)\n",
+    "\n",
+    "submissions = (submissions_raw\n",
+    "    .join(\n",
+    "        pd.read_sql_query('SELECT * from areas', dbcon, 'aid'), \n",
+    "        on='aid'\n",
+    "    )\n",
+    "    .assign(Keywords = lambda df: (pd\n",
+    "        .read_sql_query('SELECT * FROM submissionkeywords', dbcon, 'sid')\n",
+    "        .loc[df.index]\n",
+    "        .join(\n",
+    "            pd.read_sql_query('SELECT * FROM keywords', dbcon, 'kid'), \n",
+    "            on='kid'\n",
+    "        )\n",
+    "        .keyword\n",
+    "        .groupby('sid')\n",
+    "            .apply(list)\n",
+    "    ))\n",
+    "    .assign(**{'# Keywords': lambda df: df.Keywords.apply(len)})\n",
+    "    .assign(**{'FinalDecision': lambda df: df['decision']})\n",
+    "    .replace(staticdata)\n",
+    "    .rename(columns = staticdata['colnames'])\n",
+    "    .drop(columns = ['legacy', 'aid'])\n",
+    "#    .set_index('sid')\n",
+    "#    .set_index('Paper ID')\n",
+    "# note -- I changed the index, since 'Paper ID' was not unique for multiple years.\n",
+    "# By not setting the index to 'Paper ID' the index remains with 'sid'.\n",
+    "# However, 'sid' is used as a unique index in the creation of the database anyways.\n",
+    ")\n",
+    "\n",
+    "# replace the old 'Paper ID' with a unique identifier, so that the code from 2021 will work\n",
+    "submissions = submissions.rename(columns = {'Paper ID':'Old Paper ID'})\n",
+    "submissions.reset_index(inplace=True)\n",
+    "submissions['Paper ID'] = submissions['sid']\n",
+    "submissions = submissions.set_index('Paper ID')\n",
+    "#submissions colums: (index), sid (unique id), Paper ID (unique), Old Paper ID, Decision, year, Area, Keywords (as a list), # Keywords\n",
+    "\n",
+    "all_years = submissions['year'].unique()\n",
+    "\n",
+    "#rates_decision computes the acceptance rates (and total number of papers) per year\n",
+    "#rates_decision: (index), Decision, year, count, Percentage\n",
+    "rates_decision = (submissions\n",
+    "    .value_counts(['Decision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "rates_decision['Percentage'] = rates_decision.groupby(['year'])['count'].transform(lambda x: x/x.sum()*100)\n",
+    "rates_decision = rates_decision.round({'Percentage': 1})\n",
+    "#rates_decision computes the acceptance rates (and total number of papers) per year\n",
+    "#rates_decision: (index), Decision, year, count, Percentage\n",
+    "rates_decision_final = (submissions\n",
+    "    .value_counts(['FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "rates_decision_final['Percentage'] = rates_decision_final.groupby(['year'])['count'].transform(lambda x: x/x.sum()*100)\n",
+    "rates_decision_final = rates_decision_final.round({'Percentage': 1})\n",
+    "#submissions\n",
+    "#bids_raw: (index), Reviewer ID, sid (unique paper identifier over mult years), match score, bid of the reviewer, role of the reviewer, Paper ID\n",
+    "bids_raw = (pd\n",
+    "    .read_sql_query('SELECT * from reviewerbids', dbcon)\n",
+    "    .merge(submissions_raw['confsubid'], on='sid')\n",
+    "    .replace(staticdata)\n",
+    "    .rename(columns = staticdata['colnames'])\n",
+    ")\n",
+    "#bids_raw\n",
+    "\n",
+    "## Renaming Paper ID to Old Paper ID, setting Paper ID to sid, keeping all 3 for now...\n",
+    "bids_raw = bids_raw.rename(columns = {'Paper ID':'Old Paper ID'})\n",
+    "bids_raw['Paper ID'] = bids_raw['sid']\n",
+    "# bids = Reviewer, sid, Bid (how the reviewer bid on this paper)\n",
+    "#      doesn't include review/sid that were not bid for [.query('Bid != \"no bid\"')]\n",
+    "bids = (bids_raw\n",
+    "    .query('Bid != \"no bid\"')\n",
+    "# Paper ID is not unique over multiple years!\n",
+    "#    .drop(columns = ['sid'])\n",
+    "#    [['Reviewer','Paper ID', 'Bid']]\n",
+    "    [['Reviewer','sid', 'Paper ID', 'Bid']]\n",
+    "    .reset_index(drop = True)\n",
+    ")\n",
+    "\n",
+    "# matchscores becomes a table to reviewer/sid with the match scores\n",
+    "# many of these will be \"NaN\" since we now have multiple years together.\n",
+    "# we need to check whether the reviewer IDs remain unique across the years!\n",
+    "matchscores = (bids_raw\n",
+    "# Paper ID is not unique over multiple years!\n",
+    "#    [['Reviewer','Paper ID','match']]\n",
+    "    [['Reviewer','sid','Paper ID','match']]\n",
+    "# Paper ID is not unique over multiple years!\n",
+    "#    .set_index(['Reviewer', 'Paper ID'])\n",
+    "    .set_index(['Reviewer', 'Paper ID'])\n",
+    "    .match\n",
+    "    .unstack(level=1)\n",
+    ")\n",
+    "\n",
+    "# assignments = Reviewer, sid, Role (primary, secondary)\n",
+    "#      doesn't include review/sid that were not assigned [.query('Role != \"\"')]\n",
+    "assignments = (bids_raw\n",
+    "    .query('Role != \"\"')\n",
+    "# Paper ID is not unique over multiple years!\n",
+    "#    [['Reviewer', 'Paper ID', 'Role']]\n",
+    "    [['Reviewer', 'sid', 'Paper ID', 'Role']]\n",
+    "    .reset_index(drop = True)\n",
+    ")\n",
+    "\n",
+    "del dbcon\n",
+    "\n",
+    "#### Plot Defaults\n",
+    "\n",
+    "acc_template = go.layout.Template()\n",
+    "\n",
+    "acc_template.layout = dict(\n",
+    "    font = dict( \n",
+    "        family='Fira Sans',\n",
+    "        color = 'black',\n",
+    "        size = 13\n",
+    "    ),\n",
+    "    title_font_size = 14,\n",
+    "    plot_bgcolor = 'rgba(255,255,255,0)',\n",
+    "    paper_bgcolor = 'rgba(255,255,255,0)',\n",
+    "    margin = dict(pad=10),\n",
+    "    xaxis = dict(\n",
+    "        title = dict( \n",
+    "            font = dict( family='Fira Sans Medium', size=13 ),\n",
+    "            standoff = 10\n",
+    "        ),\n",
+    "        gridcolor='lightgray',\n",
+    "        gridwidth=1,\n",
+    "        automargin = True,\n",
+    "        fixedrange = True,\n",
+    "    ),\n",
+    "    yaxis = dict(\n",
+    "        title = dict( \n",
+    "            font = dict( family='Fira Sans Medium', size=13 ),\n",
+    "            standoff = 10,\n",
+    "        ),\n",
+    "        gridcolor='lightgray',\n",
+    "        gridwidth=1,\n",
+    "        automargin = True,\n",
+    "        fixedrange = True,\n",
+    "    ),\n",
+    "    legend=dict(\n",
+    "        title_font_family=\"Fira Sans Medium\",\n",
+    "    ),\n",
+    "    colorway = px.colors.qualitative.T10,\n",
+    "    hovermode = 'closest',\n",
+    "    hoverlabel=dict(\n",
+    "        bgcolor=\"white\",\n",
+    "        bordercolor='lightgray',\n",
+    "        font_color = 'black',\n",
+    "        font_family = 'Fira Sans'\n",
+    "    ),\n",
+    ")\n",
+    "\n",
+    "acc_template.data.bar = [dict(\n",
+    "    textposition = 'inside',\n",
+    "    insidetextanchor='middle',\n",
+    "    textfont_size = 12,\n",
+    ")]\n",
+    "\n",
+    "px.defaults.template = acc_template\n",
+    "\n",
+    "px.defaults.category_orders = {\n",
+    "    'Decision': list(staticdata['decision'].values()),\n",
+    "    'FinalDecision':  list(staticdata['FinalDecision'].values()),\n",
+    "    'Area': list(staticdata['area'].values()),\n",
+    "    'Short Name': staticdata['keywords']['Short Name'].tolist(),\n",
+    "}\n",
+    "\n",
+    "config = dict(\n",
+    "    displayModeBar = False,\n",
+    "    scrollZoom = False,\n",
+    "    responsive = False\n",
+    ")\n",
+    "\n",
+    "def aspect(ratio):\n",
+    "    return { 'width': width, 'height': int(ratio*width) }\n",
+    "\n",
+    "# useful data sub-products\n",
+    "\n",
+    "#k_all columns: (index), Paper ID, Old Paper ID, Decision, year, Area, Keywords (as a list), # Keywords, Keyword, Category, Subcategory, Short Name, Description\n",
+    "k_all = (submissions\n",
+    "    .join(submissions['Keywords']\n",
+    "        .explode()\n",
+    "        .rename('Keyword')\n",
+    "    )\n",
+    "    .reset_index(level = 0)\n",
+    "    .merge(staticdata['keywords'], on='Keyword')\n",
+    ")\n",
+    "\n",
+    "# (Old) Paper ID is not unique, however, the 'sid' is (which is the current index)\n",
+    "#k_all.reset_index(inplace=True)\n",
+    "#k_all.rename(columns = {'sid':'Paper ID'},inplace = True)\n",
+    "#k_all = k_all.merge(staticdata['keywords'], on='Keyword')\n",
+    "#k_all\n",
+    "\n",
+    "#k_total columns: Category, Subcategory, Short Name, Keyword, Description, #Submissions, year\n",
+    "#  counts the total number of submissions per keyword and year\n",
+    "k_total = staticdata['keywords'].merge(\n",
+    "    k_all.value_counts(['Short Name','year'])\n",
+    "         .rename('# Submissions')\n",
+    "         .reset_index(),\n",
+    "#    on = 'Short Name',\n",
+    "    how = 'right'\n",
+    "#    how = 'outer'\n",
+    ")\n",
+    "\n",
+    "#k_cnt: how often was a particular keyword used among all submissions within a year????\n",
+    "#k_cnt columns: (index), Short Name, year, c, Category, Subcategory, Keyword, Description\n",
+    "# not clear how k_cnt and k_total differ!\n",
+    "k_cnt = (k_all\n",
+    "    .value_counts(['Short Name','year'], sort=False)\n",
+    "    .rename('c')\n",
+    "    .to_frame()\n",
+    "    .reset_index()\n",
+    "    .merge(staticdata['keywords'], on='Short Name')\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2c75d5da",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "### Highlights\n",
+    "\n",
+    "Some highlights of the data to support our current recommendations:\n",
+    "\n",
+    "Acceptance rates have stayed approximately the same from 2020-2023 (26.8%, 24.9%, 26.1% and 25.8%) though there WAS a significant drop off (24.4%) in submissions between 2020 and 2021 (pandemic related?) but a considerable recovery in 2023.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "113e194e",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "fig = px.bar(rates_decision_final,\n",
+    "    x = 'Percentage',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'Percentage',\n",
+    "    custom_data = ['FinalDecision','count'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Percentage of Submissions',\n",
+    "    **aspect(0.35)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{customdata[1]} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "fig = px.bar(rates_decision_final,\n",
+    "    x = 'count',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Number of Submissions',\n",
+    "    **aspect(0.35)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1bb1d3fa",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Submissions across the (reformulated) areas are stable between 2021 and 2023\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "65e8b660",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (submissions\n",
+    "    .value_counts(['Area', 'FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "\n",
+    "data=[]\n",
+    "count=0\n",
+    "recent_years = [2021, 2022, 2023]\n",
+    "for my_year in recent_years:\n",
+    "    count=count+1\n",
+    "    trace1=go.Bar(\n",
+    "        x=tmp[tmp['year']==my_year][\"Area\"],\n",
+    "        y=tmp[tmp['year']==my_year]['count'],\n",
+    "        customdata = tmp[tmp['year']==my_year]['FinalDecision'],\n",
+    "        hovertemplate=\"%{y} papers were %{customdata} in\",\n",
+    "        name=f\"{my_year}\",\n",
+    "        offsetgroup=count,\n",
+    "    )\n",
+    "    data.append(trace1)\n",
+    "\n",
+    "fig2 = go.Figure(\n",
+    "    data=data,\n",
+    "    layout=go.Layout(\n",
+    "        title=\"Comparing # submissions 2021, 2022 and 2023\",\n",
+    "        xaxis_title=\"Areas\"\n",
+    "    )\n",
+    ")\n",
+    "fig2.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "42e8aab2",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "And frequencies of the use of keywords range from 5 to 120. The keywords with the highest number of occurrences are not very useful for categorizing papers, but they are very meaningful, and differentiation works effectively with accompanying keywords.  We believe that having five papers that use a keyword is sufficient to warrant retaining it. \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "87224922",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# do a manual histogram to include non-specified keywords\n",
+    "\n",
+    "px.bar(k_total,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2023, 2022, 2021, 2020]},\n",
+    ").update_traces(\n",
+    "    hovertemplate = \"'%{x}' specified in %{y} submissions<extra></extra>\",\n",
+    ").update_layout(\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_dtick = 1,\n",
+    "    yaxis_dtick = 50,\n",
+    "    hovermode = 'closest',\n",
+    "    title = 'Frequency of keywords across submissions',\n",
+    "    **aspect(0.8)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0b1a47dc",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Acceptance rates have been rather equal across areas in 2021, but not so in 2022 and 2023. In 2022, \"Representation and Interaction\" lost the most, while \"Data Transformations\" and \"Theoretical and Empirical\" gained the most. These three areas showed opposite trends in 2023. \"Systems and Rendering\" consistently increased in the last two years. Perhaps we need to keep watching these trends ...\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "746623f2",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "recent_submissions = submissions[submissions['year'] != 2020]\n",
+    "tmptotal = (recent_submissions\n",
+    "    .value_counts(['Area', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'total'})\n",
+    ")\n",
+    "tmp = (recent_submissions\n",
+    "    .value_counts(['Area', 'FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "tmpfinal = pd.merge(left=tmp, right=tmptotal, on=['Area','year'])\n",
+    "tmpfinal['percentage']= round(tmpfinal['count']/tmpfinal['total'] *1000)/10.0\n",
+    "fig = px.bar(tmpfinal,\n",
+    "    x = 'year',\n",
+    "    y = 'percentage',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'v',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'percentage',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    "    facet_col='Area',\n",
+    "    category_orders = {\"year\": [2021,2022, 2023]},\n",
+    "    facet_col_spacing=0.06, # default is 0.03\n",
+    "    ).update_layout(\n",
+    "        title = 'Submissions by area and year',\n",
+    "        xaxis_title = 'year',\n",
+    "        legend=dict(\n",
+    "            yanchor=\"top\",\n",
+    "            y=1,  # Adjust legends y-position\n",
+    "            xanchor=\"left\",\n",
+    "            x=1.08,  # ... and x-position to avoid overlapping\n",
+    "        ),\n",
+    "        **aspect(0.8)\n",
+    "    ).update_xaxes(type='category').update_traces(\n",
+    "        hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    "    )\n",
+    "fig.for_each_annotation(lambda a: a.update(text=a.text.split(\"=\")[-1]))\n",
+    "for i,a in enumerate(fig.layout.annotations):\n",
+    "    if (i%2):\n",
+    "        a.update(yshift=-15)\n",
+    "fig.show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "83b76f73",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "All the areas showed growth from 2022 to 2023 ecept for, though that area showed significant growth in 2022. The areas for Theoretical & Empirical, and Applications have grown significanme. These two areas have both surpassed 120 submissions each in 2023 which might eventually arguing for action.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ebf9266d",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "recent_submissions = submissions[submissions['year'] != 2020]\n",
+    "tmptotal = (recent_submissions\n",
+    "    .value_counts(['Area', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'total'})\n",
+    ")\n",
+    "tmp = (recent_submissions\n",
+    "    .value_counts(['Area', 'FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "tmpfinal = pd.merge(left=tmp, right=tmptotal, on=['Area','year'])\n",
+    "tmpfinal['percentage']= round(tmpfinal['count']/tmpfinal['total'] *1000)/10.0\n",
+    "tmpfinal['yearcat'] = tmpfinal['year'].astype('category')\n",
+    "fig = px.bar(tmpfinal,\n",
+    "    x = 'year',\n",
+    "    y = 'count',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'v',\n",
+    "    color = 'yearcat',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    "    facet_col='Area',\n",
+    "    category_orders = {\"year\": [2021,2022, 2023]},\n",
+    "    facet_col_spacing=0.06, # default is 0.03\n",
+    "    ).update_layout(\n",
+    "        title = 'Submissions by area and year',\n",
+    "        xaxis_title = 'year',\n",
+    "        **aspect(0.8)\n",
+    "    ).update_xaxes(type='category').update_traces(\n",
+    "        hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    "    )\n",
+    "fig.for_each_annotation(lambda a: a.update(text=a.text.split(\"=\")[-1]))\n",
+    "for i,a in enumerate(fig.layout.annotations):\n",
+    "    if (i%2):\n",
+    "        a.update(yshift=-15)\n",
+    "fig.show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b4b93ee6",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "<style>\n",
+    "@font-face {\n",
+    "  font-family: 'Fira Sans';\n",
+    "  font-style: normal;\n",
+    "  font-weight: 400;\n",
+    "  src: url(https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2) format('woff2');\n",
+    "  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n",
+    "}\n",
+    "\n",
+    "@font-face {\n",
+    "  font-family: 'Fira Sans Medium';\n",
+    "  font-style: normal;\n",
+    "  font-weight: 500;\n",
+    "  font-display: swap;\n",
+    "  src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveRhf6Xl7Glw.woff2) format('woff2');\n",
+    "  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n",
+    "}</style>\n",
+    "\n",
+    "# Deeper data investigation\n",
+    "\n",
+    "This report is generated by members of the ACC for the current year, and prepared for the VSC. Upon review, it will be linked from the IEEE VIS website. The conclusions and discussion points are based on submission and reviewer data from IEEE VIS 2023 (and previous years). The report and analysis performed is focused on the use of keywords, areas, and reviewer matching. Thus, there are likely other aspects of conference organization which are not covered (but could be considered). \n",
+    "\n",
+    "The report is broken down into the following sections. After the summary at the beginning, the data and analysis process is described. It shows which data we used, where it is stored, and how it is obtained. These processes can be adapted for future years of this committee. \n",
+    "\n",
+    "(NB: Some of the plots shown above are repeated here from the highlights for the sake of completeness.)\n",
+    "\n",
+    "\n",
+    "## Data and Process\n",
+    "\n",
+    "We analyzed anonymized data containing information about the full paper submissions to VIS 2022, the reviews of these submissions, and the IPC bidding preferences. We analyzed this data to understand how well the areas and keywords characterize the body of work submitted this year. We also analyzed the IPC bidding information to understand how well the expertise of the IPC members covers the submissions. Below, we show highlights of our findings.\n",
+    "\n",
+    "Note that in the the analysis that follows, the submission/paper IDs and reviewer IDs are anonymized through a randomizer, and are _not_ the IDs used in PCS submissions and reviewers.\n",
+    "\n",
+    "The data used to perform this analysis is a combination of paper submission data and reviewer bidding data. Both sets were anonymized to minimize the ability to identify IPC members, authors, or reviewers. The analysis of the data in this year uses the anonymized CSV files obtained directly from PCS. You can see the source code used to process and generate the plots in this document by clicking on the \"Code\" buttons, which will fold out the Python code used. The anonymization script that was used is located in the anonymization-scripts folder (and may be needed to be updated to correspond with changes made in PCS). In order to get ALL the data, it is current run by James at PCS who sends the resultant anonymized files to the ocmmittee where they are stored in the corresponding year folder.\n",
+    "\n",
+    "In order to facilitate longitudinal studies of this data, we are also providing a `sqlite` database with the 2020, 2021, and 2022 data in an attempt to make it easier to incorporate future years. \n",
+    "This database (as well as the source code of this document) can be found [here](https://github.com/ieee-vgtc/ieeevis-area-chair-committee-data/)\n",
+    "\n",
+    "## Sanity Checks\n",
+    "\n",
+    "We include some sanity checks on the data in order to make sure the data has been processed correctly. In 2022, we should have:\n",
+    "\n",
+    "* 139 papers accepted after the second round\n",
+    "* 393 papers rejected after the first round\n",
+    "* 5 papers desk rejected because of a scope problem\n",
+    "* 2 papers desk rejected because of a format issue\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "157ec99d",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "#rates_decision computes the acceptance rates (and total number of papers) per year\n",
+    "#rates_decision: (index), Decision, year, count, Percentage\n",
+    "rates_decision = (submissions\n",
+    "    .value_counts(['Decision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "rates_decision['Percentage'] = rates_decision.groupby(['year'])['count'].transform(lambda x: x/x.sum()*100)\n",
+    "rates_decision = rates_decision.round({'Percentage': 1})\n",
+    "#rates_decision computes the acceptance rates (and total number of papers) per year\n",
+    "#rates_decision: (index), Decision, year, count, Percentage\n",
+    "rates_decision_final = (submissions\n",
+    "    .value_counts(['FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "rates_decision_final['Percentage'] = rates_decision_final.groupby(['year'])['count'].transform(lambda x: x/x.sum()*100)\n",
+    "rates_decision_final = rates_decision_final.round({'Percentage': 1})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5a0e1a9f-86f1-4a21-8b40-7057f8551e96",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#| output: true\n",
+    "rates_decision_final.sort_values(by=['year', 'FinalDecision'], ascending=[False, True], ignore_index=True)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "51d8f847",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "fig = px.bar(rates_decision,\n",
+    "    x = 'count',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'Decision',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['Decision'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Number of Submissions',\n",
+    "    **aspect(0.45)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "fig = px.bar(rates_decision,\n",
+    "    x = 'Percentage',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'Decision',\n",
+    "    text = 'Percentage',\n",
+    "    custom_data = ['Decision','count'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Percentage of Submissions',\n",
+    "    **aspect(0.45)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{customdata[1]} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "843aaa85",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "The wide ranges of decisions can be collapsed into more straightforward Accept or Reject (where Reject includes desk rejects, admin rejects, and rejections in round 1 or 2)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0d4db70c",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "fig = px.bar(rates_decision_final,\n",
+    "    x = 'count',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Number of Submissions',\n",
+    "    **aspect(0.45)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "fig = px.bar(rates_decision_final,\n",
+    "    x = 'Percentage',\n",
+    "    y = 'year',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'Percentage',\n",
+    "    custom_data = ['FinalDecision','count'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions',\n",
+    "    xaxis_title = 'Percentage of Submissions',\n",
+    "    **aspect(0.35)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{customdata[1]} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "997d7368",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Submissions per Area. \n",
+    "\n",
+    "We wanted to understand how submissions were distributed by area, including acceptance decisions. Submissions to each area were within reasonable upper and lower limits, and decisions did not appear partial to any individual area.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ba91fdce",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "\n",
+    "def group_stat(g):\n",
+    "    return pd.DataFrame({\n",
+    "        '# Submissions': g,\n",
+    "        '% Submissions': round(g/g.sum()*100,1),\n",
+    "        'Total': g.sum()\n",
+    "    })\n",
+    "\n",
+    "tmp = (submissions\n",
+    "    .value_counts(['Area', 'Decision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "\n",
+    "fig = px.bar(tmp,\n",
+    "    x = 'count',\n",
+    "    y = 'Area',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'Decision',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['Decision'],\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2023,2022, 2021, 2020]},\n",
+    "    ).update_layout(\n",
+    "        title = 'Submissions by area and year',\n",
+    "        xaxis_title = 'Number of Submissions',\n",
+    "        yaxis=dict(\n",
+    "        tickfont=dict(size=12),  # Adjust y-label fontsize \n",
+    "        ),\n",
+    "        **aspect(1.3)\n",
+    "    ).update_traces(\n",
+    "        hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    "        texttemplate='%{text}',\n",
+    "        textangle=0  # Force labels to have horizontal orientation\n",
+    "    ).show(config=config)\n",
+    "\n",
+    "\n",
+    "fig = px.bar(tmp,\n",
+    "    x = 'count',\n",
+    "    y = 'Area',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'Decision',\n",
+    "    text = 'count',\n",
+    "    custom_data = ['Decision'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions by area all years',\n",
+    "    xaxis_title = 'Number of Submissions all years',\n",
+    "    yaxis=dict(\n",
+    "        tickfont=dict(size=12),  # Adjust y-label fontsize \n",
+    "    ),\n",
+    "    **aspect(0.5)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "data=[]\n",
+    "count=0\n",
+    "for my_year in all_years:\n",
+    "    count=count+1\n",
+    "    trace1=go.Bar(\n",
+    "        x=tmp[tmp['year']==my_year][\"Area\"],\n",
+    "        y=tmp[tmp['year']==my_year]['count'],\n",
+    "        customdata = tmp[tmp['year']==my_year]['Decision'],\n",
+    "        hovertemplate=\"%{y} papers were %{customdata[0]} in\",\n",
+    "        name=f\"{my_year}\",\n",
+    "        offsetgroup=count,\n",
+    "    )\n",
+    "    data.append(trace1)\n",
+    "\n",
+    "fig2 = go.Figure(\n",
+    "    data=data,\n",
+    "    layout=go.Layout(\n",
+    "        title=\"Comparing # submissions 2021, 2022 and 2023\",\n",
+    "        xaxis_title=\"Areas\"\n",
+    "    )\n",
+    ")\n",
+    "fig2.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6d6ce725",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "recent_submissions = submissions[submissions['year'] != 2020]\n",
+    "tmptotal = (recent_submissions\n",
+    "    .value_counts(['Area', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'total'})\n",
+    ")\n",
+    "tmp = (recent_submissions\n",
+    "    .value_counts(['Area', 'FinalDecision', 'year'])\n",
+    "    .reset_index()\n",
+    "    .rename(columns = {0: 'count'})\n",
+    ")\n",
+    "tmpfinal = pd.merge(left=tmp, right=tmptotal, on=['Area','year'])\n",
+    "tmpfinal['percentage']= round(tmpfinal['count']/tmpfinal['total'] *1000)/10.0\n",
+    "fig = px.bar(tmpfinal,\n",
+    "    x = 'percentage',\n",
+    "    y = 'Area',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'percentage',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    "    facet_row='year',\n",
+    "    ).update_layout(\n",
+    "        title = 'Submissions by area and year',\n",
+    "        xaxis_title = 'Number of Submissions',\n",
+    "        **aspect(0.8)\n",
+    "    ).update_traces(\n",
+    "        hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    "        texttemplate='%{text}',\n",
+    "        textangle=0  # Force labels to have horizontal orientation\n",
+    "    ).show(config=config)\n",
+    "\n",
+    "\n",
+    "\n",
+    "tmpfinal2 = tmpfinal.groupby(['Area','FinalDecision']).sum().reset_index()\n",
+    "tmpfinal2['newpercentage'] = round(tmpfinal['count']/tmpfinal['total']*1000)/10\n",
+    "\n",
+    "fig = px.bar(tmpfinal2,\n",
+    "    x = 'newpercentage',\n",
+    "    y = 'Area',\n",
+    "    barmode = 'stack',\n",
+    "    orientation = 'h',\n",
+    "    color = 'FinalDecision',\n",
+    "    text = 'newpercentage',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    ").update_layout(\n",
+    "    title = 'Submissions by area for all recent years',\n",
+    "    xaxis_title = 'Number of Submissions for all recent years',\n",
+    "    **aspect(0.35)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{x} submissions in %{y} have decision %{customdata[0]}<extra></extra>',\n",
+    "    texttemplate='%{text}',\n",
+    "    textangle=0  # Force labels to have horizontal orientation\n",
+    ").show(config=config)\n",
+    "\n",
+    "data=[]\n",
+    "count=0\n",
+    "recent_years = all_years[all_years != 2020]\n",
+    "for my_year in recent_years:\n",
+    "    count=count+1\n",
+    "    trace1=go.Bar(\n",
+    "        x=tmp[tmp['year']==my_year][\"Area\"],\n",
+    "        y=tmp[tmp['year']==my_year]['count'],\n",
+    "        customdata = tmp[tmp['year']==my_year]['FinalDecision'],\n",
+    "        hovertemplate=\"%{y} papers were %{customdata} in\",\n",
+    "        name=f\"{my_year}\",\n",
+    "        offsetgroup=count,\n",
+    "    )\n",
+    "    data.append(trace1)\n",
+    "\n",
+    "fig2 = go.Figure(\n",
+    "    data=data,\n",
+    "    layout=go.Layout(\n",
+    "        title=\"Comparing # submissions 2021, 2022 and 2023\",\n",
+    "        xaxis_title=\"Areas\"\n",
+    "    )\n",
+    ")\n",
+    "fig2.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9373d858",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Submissions and Keywords used\n",
+    "\n",
+    " We also analyzed how often keywords were used in the submissions. The frequency of keywords used is reasonable. The one exception which should be watched for next year is “Application-Motivated Visualization”, which may require further specification or description.\n",
+    "\n",
+    "\n",
+    "\n",
+    "How many papers were submitted to each area, and what is the breakdown of decisions?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7981ad95",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# do a manual histogram to include non-specified keywords\n",
+    "\n",
+    "px.bar(k_total,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2023, 2022, 2021, 2020]},\n",
+    ").update_traces(\n",
+    "    hovertemplate = \"'%{x}' specified in %{y} submissions<extra></extra>\",\n",
+    ").update_layout(\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_dtick = 1,\n",
+    "    yaxis_dtick = 50,\n",
+    "    hovermode = 'closest',\n",
+    "    title = 'Frequency of keywords across submissions',\n",
+    "    **aspect(0.8)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bf5ecb5c",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# do a manual histogram to include non-specified keywords\n",
+    "\n",
+    "px.bar(k_total,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'Category',\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2020, 2021, 2022, 2023]},\n",
+    ").update_traces(\n",
+    "    hovertemplate = \"'%{x}' specified in %{y} submissions<extra></extra>\",\n",
+    ").update_layout(\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_dtick = 1,\n",
+    "    yaxis_dtick = 50,\n",
+    "    hovermode = 'closest',\n",
+    "    title = 'Frequency of keywords across submissions',\n",
+    "    **aspect(0.8)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fd77e402",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "k_cnt = staticdata['keywords'].merge(\n",
+    "    pd.DataFrame(staticdata['area'].values(), columns = ['Area']), \n",
+    "    how = 'cross'\n",
+    ").merge(\n",
+    "    k_all\n",
+    "        .value_counts(['Short Name', 'Area'])\n",
+    "        .groupby(level=0)\n",
+    "        .apply(group_stat)\n",
+    "        .reset_index(),\n",
+    "    how = 'outer'\n",
+    ").fillna(1e-10) # needed for sorting, Plotly bug?\n",
+    "# do manual histogram without 2020 areas\n",
+    "k_cnt_new=k_cnt[~k_cnt.Area.isin(['VAST', 'SciVis', 'InfoVis'])]\n",
+    "# with 2020 absolute\n",
+    "px.bar(k_cnt,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'Area',\n",
+    "    custom_data = ['Area']\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword \"%{x}\" specified by %{y} submissions from area \"%{customdata}\"<extra></extra>'\n",
+    ").update_layout(\n",
+    "    barmode = 'stack',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    title = 'Frequency of keywords across submissions, by area (for all years)',\n",
+    "    **aspect(0.5),\n",
+    "    \n",
+    ").show(config=config)\n",
+    "\n",
+    "k_cnt['Submissions_pct'] = k_cnt.groupby(['Short Name'])['# Submissions'].transform(lambda x: x/x.sum()*100)\n",
+    "k_cnt = k_cnt.round({'Percentage': 1})\n",
+    "\n",
+    "# make sure order is consistent over absolute & percentage plot\n",
+    "k_cnt['Totals']=k_cnt.groupby(['Short Name'])['# Submissions'].transform(lambda x: x.sum())\n",
+    "k_cnt=k_cnt.sort_values('Totals', ascending=False)\n",
+    "\n",
+    "# with 2020 in percent\n",
+    "px.bar(k_cnt,\n",
+    "    x = 'Short Name',\n",
+    "    y = 'Submissions_pct',\n",
+    "    color = 'Area',\n",
+    "    custom_data = ['Area']\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword \"%{x}\" specified by %{y} submissions from area \"%{customdata}\"<extra></extra>'\n",
+    ").update_layout(\n",
+    "    barmode = 'stack',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    xaxis_categoryorder = 'trace',\n",
+    "    title = 'Frequency of keywords across submissions, by area (for all years)',\n",
+    "    yaxis_title = '% of Submissions',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)\n",
+    "\n",
+    "# without 2020 absolute\n",
+    "px.bar(k_cnt_new,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'Area',\n",
+    "    custom_data = ['Area']\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword \"%{x}\" specified by %{y} submissions from area \"%{customdata}\"<extra></extra>'\n",
+    ").update_layout(\n",
+    "    barmode = 'stack',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    title = 'Frequency of keywords across submissions, by area (excluding 2020)',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "k_cnt_new['Submissions_pct'] = k_cnt_new.groupby(['Short Name'])['# Submissions'].transform(lambda x: x/x.sum()*100)\n",
+    "k_cnt_new = k_cnt_new.round({'Percentage': 1})\n",
+    "\n",
+    "# make sure order is consistent over absolute & percentage plot\n",
+    "k_cnt_new['Totals']=k_cnt_new.groupby(['Short Name'])['# Submissions'].transform(lambda x: x.sum())\n",
+    "k_cnt_new=k_cnt_new.sort_values('Totals', ascending=False)\n",
+    "\n",
+    "# without 2020 in percent\n",
+    "px.bar(k_cnt_new,\n",
+    "    x = 'Short Name',\n",
+    "    y = 'Submissions_pct',\n",
+    "    color = 'Area',\n",
+    "    custom_data = ['Area']\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword \"%{x}\" specified by %{y} submissions from area \"%{customdata}\"<extra></extra>'\n",
+    ").update_layout(\n",
+    "    barmode = 'stack',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    xaxis_categoryorder = 'trace',\n",
+    "    title = 'Frequency of keywords across submissions, by area (excluding 2020)',\n",
+    "    yaxis_title = '% of Submissions',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "048f283f",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How are keywords distributed across areas?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8be74ff0",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# do a manual histogram to include non-specified keywords\n",
+    "k_cnt = staticdata['keywords'].merge(\n",
+    "    pd.DataFrame(staticdata['area'].values(), columns = ['Area']), \n",
+    "    how = 'cross'\n",
+    ").merge(\n",
+    "    k_all\n",
+    "        .value_counts(['Short Name', 'Area'])\n",
+    "        .rename('# Submissions')\n",
+    "        .reset_index(),\n",
+    "    how = 'outer'\n",
+    ").fillna(1e-10) # needed for sorting, Plotly bug?\n",
+    "\n",
+    "px.bar(k_cnt,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'Area',\n",
+    "    custom_data = ['Area']\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword \"%{x}\" specified by %{y} submissions from area \"%{customdata}\"<extra></extra>'\n",
+    ").update_layout(\n",
+    "    barmode = 'stack',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    title = 'Frequency of keywords across submissions, by area',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e770180c",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How many submissions specified a given number of keywords?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "55e18179",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (submissions\n",
+    "    .value_counts(['# Keywords', 'Area'])\n",
+    "    .rename('# Submissions')\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = '# Keywords', \n",
+    "    y = '# Submissions',\n",
+    "    barmode = 'stack',\n",
+    "    color = 'Area',\n",
+    "    custom_data=['Area'],\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} submissions specified %{x} keywords in area \"%{customdata}\"<extra></extra>',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    title = 'Keyword count per submission',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6bb55c56",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Does keyword count correlate with decision?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f73d009f",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (submissions\n",
+    "    .assign(**{'# Keywords':\n",
+    "        submissions['# Keywords']\n",
+    "            .map(lambda x: str(x) if x < 10 else '≥10')\n",
+    "    })\n",
+    "    .value_counts(['# Keywords', 'Decision'])\n",
+    "    .groupby(level=0)\n",
+    "    .apply(group_stat)\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = '# Keywords', \n",
+    "    y = '# Submissions',\n",
+    "    barmode = 'stack',\n",
+    "    color = 'Decision',\n",
+    "    custom_data=['Decision', '% Submissions', 'Total'],\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} (%{customdata[1]}%) of %{customdata[2]} submissions with %{x} keywords had decision \"%{customdata[0]}\"<extra></extra>',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_categoryorder = 'category ascending',\n",
+    "    title = 'Decisions by keyword count',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = '# Keywords', \n",
+    "    y = '% Submissions',\n",
+    "    barmode = 'stack',\n",
+    "    color = 'Decision',\n",
+    "    custom_data=['Decision', '# Submissions', 'Total'],\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y}% (%{customdata[1]} in total) of %{customdata[2]} submissions with %{x} keywords had decision \"%{customdata[0]}\"<extra></extra>',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_categoryorder = 'category ascending',\n",
+    "    title = 'Decisions by keyword count',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4cfcbac4",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Do specific keywords correlate with decision?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3c7a21c2",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# do a manual histogram to include non-specified keywords\n",
+    "\n",
+    "\n",
+    "k_dec = (pd.crosstab(k_all[\"Short Name\"], k_all[\"FinalDecision\"]).stack() ## changed this from value_counts to crosstab, to include counts of 0, which plotly's sorting seems to need to work correctly\n",
+    "    .groupby(level = 0)\n",
+    "    .apply(group_stat)\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "\n",
+    "k_dec=k_dec.sort_values('Total', ascending=False)\n",
+    "\n",
+    "\n",
+    "px.bar(k_dec,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'FinalDecision',\n",
+    "    custom_data = ['FinalDecision', '% Submissions', 'Total'],\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Decision by presence of keyword',\n",
+    "    **aspect(0.4),\n",
+    "    xaxis_categoryorder = 'trace' \n",
+    ").update_traces(\n",
+    "    hovertemplate = \"%{y} of %{customdata[2]} submissions (%{customdata[1]}%) specifying keyword '%{x}' had decision '%{customdata[0]}<extra></extra>\"\n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "\n",
+    "px.bar(k_dec,\n",
+    "    x = 'Short Name',\n",
+    "    y = '% Submissions',\n",
+    "    color = 'FinalDecision',\n",
+    "    custom_data = ['FinalDecision', '# Submissions', 'Total'],\n",
+    ").update_layout(\n",
+    "    xaxis_categoryorder = 'trace',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    xaxis_fixedrange = True,\n",
+    "    yaxis_fixedrange = True,\n",
+    "    title = 'Decision by presence of keyword',\n",
+    "    **aspect(0.4),\n",
+    "    \n",
+    ").update_traces(\n",
+    "    hovertemplate = \"%{y}% of %{customdata[2]} submissions (%{customdata[1]} in total) specifying keyword '%{x}' had decision '%{customdata[0]}<extra></extra>\"\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4db0971b",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How often are keywords \"esoteric\", i.e. used alone?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "adceab46",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (k_all.set_index('Paper ID')\n",
+    "    .value_counts(['Short Name', 'Category', '# Keywords'])\n",
+    "    .rename('# Submissions')\n",
+    "    .reset_index()\n",
+    "    .assign(**{'# Co-Keywords': (lambda x: x['# Keywords']-1)})\n",
+    ")\n",
+    "\n",
+    "px.box(tmp,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Co-Keywords',\n",
+    "    color = 'Category',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    width = .5,\n",
+    "    line_width = 1,\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f96d90a2",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "px.strip(tmp,\n",
+    "    x = 'Short Name',\n",
+    "    y = '# Co-Keywords',\n",
+    "    color = 'Category',\n",
+    "    \n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    **aspect(0.4),\n",
+    "    xaxis_categoryorder = \"mean descending\",\n",
+    ").update_traces(\n",
+    "    #jitter=0.3,\n",
+    "    width = .5,\n",
+    "    line_width = 1,\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cc1207a7",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How often are pairs of keywords specified together?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4573349d",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "k_pairs = (k_all\n",
+    "    .groupby('Paper ID')\n",
+    "    .apply(lambda g: pd.DataFrame(itertools.combinations(g['Short Name'].values, 2)))\n",
+    "    .join(submissions['Decision'])\n",
+    ")\n",
+    "\n",
+    "tmp = k_pairs.groupby([0,1]).size().nlargest(40)\n",
+    "tmp = (\n",
+    "    k_pairs\n",
+    "    .set_index([0,1])\n",
+    "    .loc[tmp.index]\n",
+    "    .assign(**{'Keyword Pair': lambda df: [' + '.join(v) for v in df.index.values]})\n",
+    "    .value_counts(['Keyword Pair', 'Decision'], sort=False)\n",
+    "    .rename('# Submissions')\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Keyword Pair',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'Decision',\n",
+    "    custom_data = ['Decision'],\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Top 40 keyword pairs',\n",
+    "    **aspect(0.55)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} submissions with keyword pair \"%{x}\" had decision \"%{customdata[0]}\"<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "k_pairs = (k_all\n",
+    "    .groupby('Paper ID')\n",
+    "    .apply(lambda g: pd.DataFrame(itertools.combinations(g['Short Name'].values, 2)))\n",
+    "    .join(submissions['FinalDecision'])\n",
+    ")\n",
+    "tmp = k_pairs.groupby([0,1]).size().nlargest(40)\n",
+    "tmp = (\n",
+    "    k_pairs\n",
+    "    .set_index([0,1])\n",
+    "    .loc[tmp.index]\n",
+    "    .assign(**{'Keyword Pair': lambda df: [' + '.join(v) for v in df.index.values]})\n",
+    "    .value_counts(['Keyword Pair', 'FinalDecision'], sort=False)\n",
+    "    .rename('# Submissions')\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Keyword Pair',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'FinalDecision',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Top 40 keyword pairs',\n",
+    "    **aspect(0.55)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} submissions with keyword pair \"%{x}\" had decision \"%{customdata[0]}\"<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "newtmp = (pd.merge(tmp, tmp\n",
+    "    .groupby('Keyword Pair').sum(), on='Keyword Pair')\n",
+    "    .rename(columns={'# Submissions_x':\"# Submissions\", \"# Submissions_y\":\"Total\"})\n",
+    "    .assign(Percent=lambda x:round(1000 * x['# Submissions']/x.Total)/10)\n",
+    "    .sort_values(by=\"Percent\")\n",
+    ")\n",
+    "px.bar(newtmp,\n",
+    "    x = 'Keyword Pair',\n",
+    "    y = 'Percent',\n",
+    "    color = 'FinalDecision',\n",
+    "    custom_data = ['FinalDecision'],\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Top 40 keyword pairs sorted by acceptance rate',\n",
+    "    **aspect(0.55)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} submissions with keyword pair \"%{x}\" had decision \"%{customdata[0]}\"<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "cooc = (k_pairs\n",
+    "    .groupby([0,1])\n",
+    "    .size()\n",
+    "    .unstack()\n",
+    "    .reindex(\n",
+    "        index = staticdata['keywords']['Short Name'], \n",
+    "        columns = staticdata['keywords']['Short Name']\n",
+    "    )\n",
+    "    .fillna(0)\n",
+    ")\n",
+    "\n",
+    "\n",
+    "\n",
+    "cooc = (cooc + cooc.T)\n",
+    "cooc['Total'] = cooc.max(axis=0)\n",
+    "cooc.sort_values(by='Total', ascending=False,inplace=True)\n",
+    "cooc = cooc.loc[:,list(cooc.index)]\n",
+    "\n",
+    "np.fill_diagonal(cooc.values, None)\n",
+    "\n",
+    "px.imshow(cooc, \n",
+    "    color_continuous_scale='portland',\n",
+    ").update_traces(\n",
+    "    connectgaps = False,\n",
+    "    hoverongaps = False,\n",
+    "    hovertemplate = \"Keywords '%{x}' and '%{y}' are jointly specified in %{z} submissions<extra></extra>\",\n",
+    "    colorbar_title = '# Submissions',\n",
+    ").update_layout(    \n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 7,\n",
+    "    yaxis_dtick = 1,\n",
+    "    yaxis_tickfont_size = 7,\n",
+    "    hovermode = 'closest',\n",
+    "    xaxis_showgrid = False,\n",
+    "    yaxis_showgrid = False,\n",
+    "    title = 'Co-occurrence of keywords',\n",
+    "    **aspect(.7)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1f58bbca",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "cooc = (k_pairs\n",
+    "    .groupby([0,1])\n",
+    "    .size()\n",
+    "    .unstack()\n",
+    "    .reindex(\n",
+    "        index = staticdata['keywords']['Short Name'], \n",
+    "        columns = staticdata['keywords']['Short Name']\n",
+    "    )\n",
+    "    .fillna(0)\n",
+    ")\n",
+    "cooc['Total'] = cooc.max(axis=1)\n",
+    "cooc.sort_values(by='Total', ascending=False,inplace=True)\n",
+    "\n",
+    "k_triples = (k_all\n",
+    "    .groupby('Paper ID')\n",
+    "    .apply(lambda g: pd.DataFrame(itertools.combinations(g['Short Name'].values, 3)))\n",
+    "    .join(submissions['FinalDecision'])\n",
+    ")\n",
+    "\n",
+    "tmp = k_triples.groupby([0,1,2]).size().nlargest(40)\n",
+    "tmp = (\n",
+    "    k_triples\n",
+    "    .set_index([0,1,2])\n",
+    "    .loc[tmp.index]\n",
+    "    .assign(**{'Keyword Triple': lambda df: [' + '.join(v) for v in df.index.values]})\n",
+    ")\n",
+    "tmp= (\n",
+    "    pd.crosstab(tmp['Keyword Triple'], tmp['FinalDecision']).stack() \n",
+    "    .groupby(level = 0)\n",
+    "    .apply(group_stat)\n",
+    "    .reset_index()\n",
+    "    .sort_values('Total', ascending=False)\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Keyword Triple',\n",
+    "    y = '# Submissions',\n",
+    "    color = 'FinalDecision',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Top 40 keyword triples',\n",
+    "    **aspect(0.5)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} submissions with keyword pair \"%{x}\" had decision \"%{fullData.name}\"<extra></extra>',\n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Keyword Triple',\n",
+    "    y = '% Submissions',\n",
+    "    color = 'FinalDecision',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Top 40 keyword triples',\n",
+    "    **aspect(0.5)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y}% submissions with keyword pair \"%{x}\" had decision \"%{fullData.name}\"<extra></extra>',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "26a88223",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Matching for reviewers\n",
+    "\n",
+    "What is the distribution of match scores by keyword?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b54f9a1e",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (matchscores.T\n",
+    "    .stack()\n",
+    "    .rename('Score')\n",
+    "    .loc[lambda x: x > -1.0]\n",
+    "    .reset_index()\n",
+    "    .merge(k_all.loc[:,['Paper ID', 'Short Name', 'Category']], on='Paper ID')\n",
+    "    #.merge(k_all.loc[:,['sid', 'Short Name', 'Category']], on='sid')\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.box(tmp,\n",
+    "    x = 'Short Name',\n",
+    "    y = 'Score',\n",
+    "    color = 'Category',\n",
+    ").update_layout(\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    title = 'Distribution of match scores per keyword',\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    width = .5,\n",
+    "    line_width = 1,\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3feea960",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "What is the number of \"high\" match scores, per submission?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b5f91a94",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (matchscores.T\n",
+    "    .where(lambda x: x > -1.0, None)\n",
+    ")\n",
+    "\n",
+    "threshold = [0.5, 0.7, 0.9]\n",
+    "\n",
+    "tmp = pd.concat([ \n",
+    "    (tmp >= q).agg('sum', axis=1).rename('≥ %.1f' % q) \n",
+    "    for q in threshold \n",
+    "], axis=1)\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    barmode = 'overlay',\n",
+    "    opacity = 1,\n",
+    ").update_layout(\n",
+    "    legend_title = 'Match Score',\n",
+    "    bargap = 0.1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    yaxis_title = '# Reviewers',\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Submission %{x} has %{y} matches %{fullData.name}<extra></extra>'\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1ba2d4ed",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Which are the 10 submissions with the lowest number of \"good\" (≥ 0.5) match scores?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "642862b7",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "ind = tmp['≥ 0.5'].nsmallest(10).index\n",
+    "\n",
+    "(tmp\n",
+    "    .merge(bids\n",
+    "        .query('`Paper ID` in @ind and Bid in [\"willing\", \"want\"]')\n",
+    "        .value_counts(['Paper ID'])\n",
+    "        .rename(\"Pos. Bids\"),\n",
+    "        on='Paper ID')\n",
+    "    .merge(submissions, on='Paper ID')\n",
+    "    .sort_values('≥ 0.5')\n",
+    "    .assign(Keywords = lambda df: df.Keywords\n",
+    "        .apply(lambda x: ', '.join(\n",
+    "            [staticdata['keywords'].set_index('Keyword').loc[k, 'Short Name'] for k in x]\n",
+    "    )))\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "57ca20bf",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "What is the number of \"high\" match scores, per keyword?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b9d65fcb",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (matchscores.T\n",
+    "    .where(lambda x: x > -1.0, None)\n",
+    ")\n",
+    "\n",
+    "tmp = (k_all\n",
+    "    .set_index('Paper ID')['Short Name']\n",
+    "    .to_frame()\n",
+    "    .merge(tmp, left_index=True, right_index=True, how='inner')\n",
+    "    .set_index('Short Name')\n",
+    ")\n",
+    "\n",
+    "tmp = (pd\n",
+    "    .concat([ \n",
+    "        (tmp >= q).agg('sum', axis=1).rename('≥ %.1f' % q) \n",
+    "        for q in threshold \n",
+    "    ], axis=1)\n",
+    "    .groupby('Short Name')\n",
+    "    .mean()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    barmode = 'overlay',\n",
+    "    opacity = 1,\n",
+    ").update_layout(\n",
+    "    legend_title = 'Match Score',\n",
+    "    bargap = 0.1,\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    yaxis_title = '# Matches',\n",
+    "    title = 'Match scores by keyword',\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword %{x} has %{y:.1f} matches %{fullData.name}<extra></extra>'\n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "\n",
+    "px.bar(tmp.sort_values('≥ 0.9', ascending=False),\n",
+    "    barmode = 'overlay',\n",
+    "    opacity = 1,\n",
+    ").update_layout(\n",
+    "    legend_title = 'Match Score',\n",
+    "    bargap = 0.1,\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    yaxis_title = '# Matches',\n",
+    "    title = 'Match scores by keyword',\n",
+    "    xaxis_categoryorder = \"trace\",\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword %{x} has %{y:.1f} matches %{fullData.name}<extra></extra>'   \n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "px.bar(tmp.sort_values('≥ 0.7', ascending=False),\n",
+    "    barmode = 'overlay',\n",
+    "    opacity = 1,\n",
+    ").update_layout(\n",
+    "    legend_title = 'Match Score',\n",
+    "    bargap = 0.1,\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    yaxis_title = '# Matches',\n",
+    "    title = 'Match scores by keyword',\n",
+    "    xaxis_categoryorder = \"trace\",\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword %{x} has %{y:.1f} matches %{fullData.name}<extra></extra>'   \n",
+    ").show(config=config)\n",
+    "\n",
+    "\n",
+    "px.bar(tmp.sort_values('≥ 0.5', ascending=False),\n",
+    "    barmode = 'overlay',\n",
+    "    opacity = 1,\n",
+    ").update_layout(\n",
+    "    legend_title = 'Match Score',\n",
+    "    bargap = 0.1,\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    yaxis_title = '# Matches',\n",
+    "    title = 'Match scores by keyword',\n",
+    "    xaxis_categoryorder = \"trace\",\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Keyword %{x} has %{y:.1f} matches %{fullData.name}<extra></extra>'   \n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7006e95f",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Bidding\n",
+    "\n",
+    "How many bids did individual PC members make?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9aaf2bab",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (bids\n",
+    "    .value_counts(['Reviewer', 'Bid'], sort=False)\n",
+    "    .rename('# Bids')\n",
+    "    .reset_index()\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Reviewer',\n",
+    "    y = '# Bids',\n",
+    "    color = 'Bid'\n",
+    ").update_layout(\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    xaxis_showticklabels = False,\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Reviewier %{x} made %{y} \"%{fullData.name}\" bids.<extra></extra>'\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2509f55f",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How many (positive) bids did each submission receive?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cb3af5fe",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (bids\n",
+    "    .value_counts(['Paper ID', 'Bid'], sort=False)\n",
+    "    #.value_counts(['sid', 'Bid'], sort=False)\n",
+    "    .rename('# Bids')\n",
+    "    .reset_index()\n",
+    "    .loc[lambda x: x.Bid.isin(['want', 'willing'])]\n",
+    ")\n",
+    "\n",
+    "px.bar(tmp,\n",
+    "    x = 'Paper ID',\n",
+    "    #x = 'sid',\n",
+    "    y = '# Bids',\n",
+    "    color = 'Bid'\n",
+    ").update_layout(\n",
+    "    xaxis_type = 'category',\n",
+    "    xaxis_categoryorder = 'total descending',\n",
+    "    xaxis_showticklabels = False,\n",
+    "    title = 'Positive Bids per Paper',\n",
+    "    **aspect(0.4),\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Paper %{x} received %{y} \"%{fullData.name}\" bids.<extra></extra>',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "92705764",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "popular = 15\n",
+    "\n",
+    "tmp = (bids\n",
+    "    .query('Bid in [\"want\", \"willing\"]')\n",
+    "    .value_counts(['Paper ID', 'Bid'], sort=False)\n",
+    "   # .value_counts(['sid', 'Bid'], sort=False)\n",
+    "    .unstack()\n",
+    "    .fillna(0)\n",
+    "    .groupby(['want', 'willing'])\n",
+    "    .apply(lambda g: pd.Series({'ids': g.index.values, 'count': g.index.size}))\n",
+    "    .reset_index()\n",
+    "    .assign(popular = \n",
+    "            lambda df: np.where( df['willing']+df['want']>=popular, \"≥ %d\" % popular, \"< %d\" % popular)\n",
+    "))\n",
+    "\n",
+    "px.scatter(tmp,\n",
+    "    x = 'willing',\n",
+    "    y = 'want',\n",
+    "    size = 'count',\n",
+    "    color = 'popular',\n",
+    "    custom_data = ['count', 'ids'],\n",
+    ").update_layout(\n",
+    "    legend_title = 'Total Pos. Bids',\n",
+    "    title = 'Distribution of Positive Bids',\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{customdata[0]} papers received %{x} \"willing\" and %{y} \"want\" bids',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b9e8acdf",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "Does the presence of specific keywords correlate with bidding?\n",
+    "\n",
+    "We run a reviewer-independent ridge regression model where the\n",
+    "independent variable is the overall reviewer interest, and the\n",
+    "dependent variable is the (weighted) presence of a keyword. We measure\n",
+    "interest by giving each \"willing\" or \"want\" bid a score of 1:\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "23903266",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp_3 = staticdata['keywords'].copy()\n",
+    "tmp_3['ix'] = list(range(len(tmp_3)))\n",
+    "tmp_3 = tmp_3[['Short Name', 'ix']]\n",
+    "tmp_1 = k_all[['Paper ID', 'Short Name']]\n",
+    "#tmp_1 = k_all[['sid', 'Short Name']]\n",
+    "tmp_2 = bids[(bids['Bid'] == 'willing') | (bids['Bid'] == 'want')]\n",
+    "df = tmp_1.merge(tmp_3, on=\"Short Name\").merge(tmp_2, on=\"Paper ID\")\n",
+    "#df = tmp_1.merge(tmp_3, on=\"Short Name\").merge(tmp_2, on=\"sid\")\n",
+    "df['weight'] = 2\n",
+    "df.loc[df['Bid'] == 'willing', 'weight'] = 1\n",
+    "\n",
+    "total_weight = df[['Paper ID', 'ix', 'weight']].groupby(['Paper ID', 'ix']).sum().reset_index()\n",
+    "keyword_count = tmp_1.groupby(['Paper ID']).count().reset_index()\n",
+    "#total_weight = df[['sid', 'ix', 'weight']].groupby(['sid', 'ix']).sum().reset_index()\n",
+    "#keyword_count = tmp_1.groupby(['sid']).count().reset_index()\n",
+    "keyword_count['Keyword Weight'] = 1.0/keyword_count['Short Name']\n",
+    "total_weight = total_weight.merge(keyword_count[['Paper ID', 'Keyword Weight']], on=\"Paper ID\")\n",
+    "nrows = max(total_weight['Paper ID']) + 1\n",
+    "#total_weight = total_weight.merge(keyword_count[['sid', 'Keyword Weight']], on=\"sid\")\n",
+    "#nrows = max(total_weight['sid']) + 1\n",
+    "\n",
+    "ncols = max(total_weight['ix']) + 1\n",
+    "design_matrix = np.zeros((nrows, ncols))\n",
+    "design_matrix.shape\n",
+    "rhs = np.zeros(nrows)\n",
+    "\n",
+    "# this is embarrassing, there must be a fancy pandas way of doing it.\n",
+    "# someone else can figure it out.\n",
+    "for i, row in total_weight.iterrows():\n",
+    "    design_matrix[int(row['Paper ID']), int(row['ix'])] = row['Keyword Weight']\n",
+    "    #design_matrix[int(row['sid']), int(row['ix'])] = row['Keyword Weight']\n",
+    "    rhs[int(row['Paper ID'])] = row['weight']\n",
+    "    #rhs[int(row['sid'])] = row['weight']\n",
+    "import scipy.linalg\n",
+    "from sklearn.linear_model import Ridge\n",
+    "# Ideally, we find the best regularizer by splitting into training/validation,\n",
+    "# but on inspection the order doesn't seem to change too much \n",
+    "lr = Ridge(1).fit(design_matrix, rhs)\n",
+    "lr.coef_\n",
+    "tmp_3['Importance'] = lr.coef_\n",
+    "tmp_3 = tmp_3.sort_values(by=['Importance']).merge(staticdata['keywords'], on='Short Name', )\n",
+    "\n",
+    "px.scatter(tmp_3, \n",
+    "    x=\"Short Name\", \n",
+    "    y=\"Importance\", \n",
+    "    color='Category',\n",
+    "    custom_data = ['Keyword'],\n",
+    ").update_layout(\n",
+    "    title = 'Keyword Importance for Bidding',\n",
+    "    xaxis_dtick = 1,\n",
+    "    xaxis_categoryorder = 'trace',\n",
+    "    xaxis_tickfont_size = 8,\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    hovertemplate = 'Importance of \"%{customdata[0]}\": %{y}<extra></extra>'\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "494ad284",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Assignment\n",
+    "\n",
+    "How many papers were PC members assigned?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fab6647e",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = assignments.value_counts(['Reviewer']).rename('# Assignments').reset_index()\n",
+    "\n",
+    "\n",
+    "px.histogram(tmp,\n",
+    "    x = '# Assignments',\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} reviewers were assigned %{x} submissions',\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    yaxis_title = '# PC members',\n",
+    "    title = 'Distribution of assignments',\n",
+    "    \n",
+    "    **aspect(0.4)\n",
+    ").show(config=config)\n",
+    "\n",
+    "### TODO: Split by year \n",
+    "\n",
+    "tmp2=assignments.merge(submissions['year'], on='Paper ID').value_counts(['Reviewer', 'year']).rename('# Assignments').reset_index()\n",
+    "\n",
+    "px.histogram(tmp2,\n",
+    "    x = '# Assignments',\n",
+    "    facet_row=\"year\",\n",
+    "    category_orders={'year': [2023, 2022, 2021]}\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} reviewers were assigned %{x} submissions'\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    yaxis1_title = '# PC members',\n",
+    "    yaxis2_title = '# PC members',\n",
+    "    yaxis3_title = '# PC members',\n",
+    "    title = 'Distribution of assignments, per year',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8a9be6ee",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = assignments.value_counts(['Reviewer', 'Role']).reset_index()\n",
+    "\n",
+    "px.histogram(tmp,\n",
+    "    x = 0,\n",
+    "    color = 'Role',\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} reviewers were assigned %{x} submissions as %{fullData.name}<extra></extra>'\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    barmode = 'group',\n",
+    "    xaxis_title = '# Assignments',\n",
+    "    yaxis_title = '# Members',\n",
+    "    title = 'Distribution of assignments',\n",
+    "    **aspect(0.4)\n",
+    ").show(config=config)\n",
+    "\n",
+    "### TODO: Split by year\n",
+    "\n",
+    "tmp2=assignments.merge(submissions['year'], on='Paper ID').value_counts(['Reviewer', 'Role', 'year']).reset_index()\n",
+    "\n",
+    "px.histogram(tmp2,\n",
+    "    x = 0,\n",
+    "    color = 'Role',\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2023, 2022, 2021]}\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} reviewers were assigned %{x} submissions as %{fullData.name}<extra></extra>'\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    barmode = 'group',\n",
+    "    xaxis_title = '# Assignments',\n",
+    "    yaxis1_title = '# Members',\n",
+    "    yaxis2_title = '# Members',\n",
+    "    yaxis3_title = '# Members',\n",
+    "    title = 'Distribution of assignments',\n",
+    "    **aspect(0.5)\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dfe1351c",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How many areas did reviewers review in?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d0a0e9a4",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (assignments\n",
+    "    .merge(submissions, on='Paper ID')\n",
+    "    #.merge(submissions, on='sid')\n",
+    "    .groupby('Reviewer')\n",
+    "    .apply(lambda x: len(x['Area'].unique()))\n",
+    "    .reset_index())\n",
+    "\n",
+    "px.histogram(tmp,\n",
+    "    x = 0,\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} PC members were assigned submissions from %{x} area(s)',\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    xaxis_title = '# Areas',\n",
+    "    yaxis_title = '# PC members',\n",
+    "    **aspect(0.4),\n",
+    ").show(config=config)\n",
+    "\n",
+    "### TODO: Split by year\n",
+    "\n",
+    "tmp = (assignments\n",
+    "    .merge(submissions, on='Paper ID')\n",
+    "    .groupby(['Reviewer', 'year'])\n",
+    "    .apply(lambda x: len(x['Area'].unique()))\n",
+    "    .reset_index())\n",
+    "\n",
+    "px.histogram(tmp,\n",
+    "    x = 0,\n",
+    "    facet_row='year',\n",
+    "    category_orders={'year': [2023, 2022, 2021]}\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} PC members were assigned submissions from %{x} area(s)',\n",
+    ").update_layout(\n",
+    "    bargap = .1,\n",
+    "    xaxis_title = '# Areas',\n",
+    "    yaxis1_title = '# PC members',\n",
+    "    yaxis2_title = '# PC members',\n",
+    "    yaxis3_title = '# PC members',\n",
+    "    **aspect(0.5),\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f0ffddcf",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How do match scores correlate with bids?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "be351c81",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = bids.assign(\n",
+    "    Score = bids.apply(lambda x: (matchscores.loc[x['Reviewer'], x['Paper ID']]), axis=1),\n",
+    "    Area  = bids.apply(lambda x: (submissions.loc[x['Paper ID'], 'Area']), axis=1) \n",
+    "#    Score = bids.apply(lambda x: (matchscores.loc[x['Reviewer'], x['sid']]), axis=1),\n",
+    "#    Area  = bids.apply(lambda x: (submissions.loc[x['sid'], 'Area']), axis=1) \n",
+    ").query('Score > -1.0')\n",
+    "\n",
+    "px.box(tmp,\n",
+    "    x = 'Bid',\n",
+    "    y = 'Score',\n",
+    "    color = 'Bid',\n",
+    ").update_layout(\n",
+    "    showlegend = False,\n",
+    "    xaxis_categoryorder = 'array',\n",
+    "    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    line_width = 2,\n",
+    "    boxmean = True\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a1acb769",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "### TODO: Split by year\n",
+    "\n",
+    "tmp = bids.assign(\n",
+    "    Score = bids.apply(lambda x: (matchscores.loc[x['Reviewer'], x['Paper ID']]), axis=1),\n",
+    "    Area  = bids.apply(lambda x: (submissions.loc[x['Paper ID'], 'Area']), axis=1), \n",
+    "    year  = bids.apply(lambda x: (submissions.loc[x['Paper ID'], 'year']), axis=1), \n",
+    ").query('Score > -1.0')\n",
+    "\n",
+    "px.box(tmp,\n",
+    "    x = 'Bid',\n",
+    "    y = 'Score',\n",
+    "    color = 'Bid',\n",
+    "    facet_row='year'\n",
+    ").update_layout(\n",
+    "    showlegend = False,\n",
+    "    xaxis_categoryorder = 'array',\n",
+    "    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],\n",
+    "    **aspect(0.8)\n",
+    ").update_traces(\n",
+    "    line_width = 2,\n",
+    "    boxmean = True\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "143ba235",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "px.violin(tmp,\n",
+    "    x = 'Bid',\n",
+    "    y = 'Score',\n",
+    "    color = 'Area',\n",
+    "    box = True,\n",
+    ").update_layout(\n",
+    "    # showlegend = False,\n",
+    "    title = 'Match scores by bid by area',\n",
+    "    xaxis_categoryorder = 'array',\n",
+    "    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],\n",
+    "    violingap=0.2, \n",
+    "    violingroupgap=0.1,\n",
+    "    **aspect(0.4)\n",
+    ").update_traces(\n",
+    "    box_line_color = 'black',\n",
+    "    box_line_width = 1,\n",
+    "    line_width = 0,\n",
+    "    meanline_visible=True,\n",
+    "    marker_size = 4,\n",
+    "    # boxpoints = 'outliers',\n",
+    ").show(config=config)\n",
+    "\n",
+    "### TODO: Split by year\n",
+    "\n",
+    "px.violin(tmp,\n",
+    "    x = 'Bid',\n",
+    "    y = 'Score',\n",
+    "    color = 'Area',\n",
+    "    box = True,\n",
+    "    facet_row='year'\n",
+    ").update_layout(\n",
+    "    # showlegend = False,\n",
+    "    title = 'Match scores by bid by area, by year',\n",
+    "    xaxis_categoryorder = 'array',\n",
+    "    xaxis_categoryarray = ['want', 'willing', 'reluctant', 'conflict'],\n",
+    "    violingap=0.2, \n",
+    "    violingroupgap=0.1,\n",
+    "    **aspect(0.8)\n",
+    ").update_traces(\n",
+    "    box_line_color = 'black',\n",
+    "    box_line_width = 1,\n",
+    "    line_width = 0,\n",
+    "    meanline_visible=True,\n",
+    "    marker_size = 4,\n",
+    "    # boxpoints = 'outliers',\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3edcc6d4",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "How often were reviewers assigned submissions that they bid on?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "03bd0ee4",
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "tmp = (\n",
+    "    assignments\n",
+    "        .merge(bids, on=['Reviewer', 'Paper ID'], how='left')\n",
+    "#        .merge(bids, on=['Reviewer', 'sid'], how='left')\n",
+    "        .value_counts(['Role', 'Bid'])\n",
+    "        .rename('Reviewers')\n",
+    "        .reset_index()\n",
+    ")\n",
+    "\n",
+    "fig = px.bar(tmp,\n",
+    "    y = 'Reviewers',\n",
+    "    x = 'Role',\n",
+    "    color = 'Bid',\n",
+    "    custom_data = ['Bid']\n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} PC members assigned as %{x} bid %{customdata}<extra></extra>',\n",
+    ").update_layout(\n",
+    "    title = \"Assignment by bidding\",\n",
+    "    **aspect(0.4),\n",
+    ").show(config=config)\n",
+    "\n",
+    "### TODO: Split by year\n",
+    "tmp2 = (\n",
+    "    assignments\n",
+    "        .merge(bids, on=['Reviewer', 'Paper ID'], how='left')\n",
+    "        .merge(submissions, on='Paper ID')\n",
+    "        .value_counts(['Role', 'Bid', 'year'])\n",
+    "        .rename('Reviewers')\n",
+    "        .reset_index()\n",
+    ")\n",
+    "\n",
+    "fig = px.bar(tmp2,\n",
+    "    y = 'Reviewers',\n",
+    "    x = 'Role',\n",
+    "    color = 'Bid',\n",
+    "    custom_data = ['Bid'],\n",
+    "    facet_row='year'  \n",
+    ").update_traces(\n",
+    "    hovertemplate = '%{y} PC members assigned as %{x} bid %{customdata}<extra></extra>',\n",
+    ").update_layout(\n",
+    "    title = \"Assignment by bidding, per year\",\n",
+    "    **aspect(0.5),\n",
+    ").show(config=config)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e32e04c2-31aa-4de4-8407-57b69568fef8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
