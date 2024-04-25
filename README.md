@@ -14,7 +14,7 @@ Once installed, you can create a virtual environment to avoid breaking your appl
 
 
 ``` shell
-conda create -n acc python=3.10
+conda create -n acc python=3.11
 conda activate acc
 conda install jupyterlab pandas matplotlib plotly scipy scikit-learn
 ```
@@ -73,6 +73,13 @@ To import a new year of submission data received in csv format, assuming it foll
 ``` shell
 sqlite>.mode csv
 sqlite>.import submissions-2024.csv submissions
+```
+
+## Topic and Keywords Analysis
+
+``` shell
+conda install cxx-compiler nmslib
+pip install git+https://gitlab.inria.fr/cartolabe/cartolabe-data@0.2.0
 ```
 
 ### Added quatro file and report from 2022 
