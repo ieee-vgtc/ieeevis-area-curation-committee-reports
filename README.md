@@ -16,15 +16,15 @@ Once installed, you can create a virtual environment to avoid breaking your appl
 ``` shell
 conda create -n acc python=3.11
 conda activate acc
-conda install jupyterlab pandas matplotlib plotly scipy scikit-learn
+conda install pip jupyterlab pandas matplotlib plotly scipy scikit-learn
 ```
 
-Connect to the 2023 directory and use quarto to generate the report.
+Connect to the 2024 directory and use quarto to generate the report.
 
-The file "Analysis 2023.ipynb" is a JupyterLab notebook. To edit it, run:
+The file "Analysis 2024.ipynb" is a JupyterLab notebook. To edit it, run:
  
 ``` shell
-jupyter lab Analysis\ 2023.ipynb
+jupyter lab Analysis\ 2024.ipynb
 ```
 
 The notebook file should be displayed on your browser, but it has no attached image or computed cells. You need to run the whole notebook using the menu item "Kernel->Restart Kernel and Run All Cells..." to update the visualizations and computed results. It takes a few minutes to finish running.
@@ -33,10 +33,10 @@ Then, save the file using the "File -> Save Notebook" menu item. You can then ge
 
 
 ``` shell
-quarto preview Analysis\ 2023.ipynb 
+quarto preview Analysis\ 2024.ipynb 
 ```
 
-Quarto will generate the Analysis\ 2023.html file and show it in a browser.
+Quarto will generate the Analysis\ 2024.html file and show it in a browser.
 
 Don't try to commit and push the notebook to github.com, it is too large. You need to strip it from all the generated cells first using the "Kernel -> Restart Kernel and Clear Outputs of All Cells..." menu item. Then, save the file again (Ctrl-S), and you can commit and push the file.
 
@@ -78,8 +78,7 @@ sqlite>.import submissions-2024.csv submissions
 ## Topic and Keywords Analysis
 
 ``` shell
-conda install cxx-compiler nmslib
-pip install git+https://gitlab.inria.fr/cartolabe/cartolabe-data@0.2.0
+pip install bertopic
 ```
 
 ### Added quatro file and report from 2022 
