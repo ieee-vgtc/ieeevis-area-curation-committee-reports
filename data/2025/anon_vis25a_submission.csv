@@ -1,0 +1,538 @@
+﻿Paper ID,Decision,Keywords,Area
+0,T,"Data Models; Data Abstractions & Types; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",A&D
+1,T,Scalar Field Data; Algorithms; Large-Scale Data Techniques; Computational Topology-based Techniques,DTr
+2,R,Application Motivated Visualization; Other Contribution; Other Application Areas,App
+3,R,"Scalar Field Data; Vector and Tensor Field Data; Algorithms; Computational Benchmark Studies; Data Management, Processing, Wrangling; Large-Scale Data Techniques; Isosurface Techniques; Computer Graphics Techniques",S&R
+4,A2,Color; Perception & Cognition,T&E
+5,R-Strong,"Data Type Agnostic; Software Architecture, Toolkit/Library, Language; Domain Agnostic; Machine Learning Techniques",R&I
+6,A2,"Vector and Tensor Field Data; Physical & Environmental Sciences, Engineering, Mathematics; Mathematical Foundations & Numerical Methods; Isosurface Techniques; Vector, Tensor & Flow Visualization",S&R
+7,DR,"High-dimensional Data; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling; Charts, Diagrams, and Plots",A&D
+8,R-Strong,Graph/Network and Tree Data; Algorithms,S&R
+9,DR,"Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",App
+10,R,"Text/Document Data; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Coordinated and Multiple Views",App
+11,R-Strong,"Guidelines; Methodologies; Taxonomy, Models, Frameworks, Theory",T&E
+12,A2,"Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+13,A2,Visual Representation Design; Domain Agnostic; Perception & Cognition,T&E
+14,DR,"Graph/Network and Tree Data; Taxonomy, Models, Frameworks, Theory",T&E
+15,A2,"Image and Video Data; Scalar Field Data; Temporal Data; Algorithms; Application Motivated Visualization; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning Techniques; Volume Rendering; Animation and Motion-related Techniques",App
+16,R,"Guidelines; Methodologies; Visual Representation Design; Human-Subjects Quantitative Studies; Perception & Cognition; Charts, Diagrams, and Plots; Multi-Resolution and Level of Detail Techniques",T&E
+17,R,"Graph/Network and Tree Data; Interaction Design; Communication/Presentation, Storytelling; Dimensionality Reduction",R&I
+18,R,"Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Data Management, Processing, Wrangling",A&D
+19,R,"Data Type Agnostic; Software Architecture, Toolkit/Library, Language; Domain Agnostic; Communication/Presentation, Storytelling; Other Topics and Techniques",S&R
+20,R-Strong,"Guidelines; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; General Public; Charts, Diagrams, and Plots",R&I
+21,R,"Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+22,R,High-dimensional Data; Visual Representation Design; Computational Benchmark Studies; Human-Subjects Qualitative Studies,T&E
+23,R,"Scalar Field Data; Data Abstractions & Types; Machine Learning, Statistics, Modelling, and Simulation Applications; Physical & Environmental Sciences, Engineering, Mathematics; Large-Scale Data Techniques; Machine Learning Techniques; Volume Rendering",DTr
+24,R,"Geospatial Data; Temporal Data; Algorithms; Process/Workflow Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",A&D
+25,R-Strong,"Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Art & Graphic Design; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",App
+26,R,"Geospatial Data; Task Abstractions & Application Domains; Taxonomy, Models, Frameworks, Theory",T&E
+27,R,"Graph/Network and Tree Data; Data Abstractions & Types; Deployment; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Domain Agnostic; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling; Feature Detection, Extraction, Tracking & Transformation; Charts, Diagrams, and Plots",S&R
+28,R,Visual Representation Design,T&E
+29,R-Strong,"Geospatial Data; Temporal Data; Algorithms; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques; Coordinated and Multiple Views; Other Topics and Techniques",App
+30,R,Temporal Data; Domain Agnostic,DTr
+31,R-Strong,"High-dimensional Data; Tabular Data; Data Type Agnostic; Application Motivated Visualization; Data Abstractions & Types; Methodologies; Process/Workflow Design; Human-Subjects Qualitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Domain Agnostic; Collaboration; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Data Management, Processing, Wrangling; Dimensionality Reduction; Large-Scale Data Techniques; Comparison and Similarity; Multi-Resolution and Level of Detail Techniques",App
+32,A2,"Temporal Data; Application Motivated Visualization; Task Abstractions & Application Domains; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Coordinated and Multiple Views",App
+33,R-Strong,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Quantitative Studies; Perception & Cognition",T&E
+34,R,Temporal Data; Visual Representation Design; Human-Subjects Quantitative Studies,R&I
+35,R,Geospatial Data; Coordinated and Multiple Views,App
+36,R-Strong,Scalar Field Data; Data Abstractions & Types; Uncertainty Visualization,DTr
+37,R-Strong,Scalar Field Data; Data Clustering and Aggregation; Volume Rendering; Computer Graphics Techniques,S&R
+38,A2,Visual Representation Design,T&E
+39,R,"High-dimensional Data; Text/Document Data; Data Analysis, Reasoning, Problem Solving, and Decision Making; Dimensionality Reduction; Machine Learning Techniques",A&D
+40,R,"Temporal Data; General Public; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques; Machine Learning Techniques",S&R
+41,A2,Machine Learning Techniques; Volume Rendering; Art & Graphic Design; Computer Graphics Techniques,S&R
+42,R,Graph/Network and Tree Data; Algorithms; Perception & Cognition,S&R
+43,R-Strong,Visual Representation Design; Human-Subjects Qualitative Studies; Perception & Cognition,R&I
+44,R-Strong,Geospatial Data; Graph/Network and Tree Data; Application Motivated Visualization,R&I
+45,R,"Image and Video Data; Application Motivated Visualization; Process/Workflow Design; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Mixed Initiative Human-Machine Analysis; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Charts, Diagrams, and Plots; Coordinated and Multiple Views; Uncertainty Visualization",App
+46,A2,"Machine Learning, Statistics, Modelling, and Simulation Applications; Charts, Diagrams, and Plots; Other Topics and Techniques",T&E
+47,A2,"Graph/Network and Tree Data; Algorithms; Charts, Diagrams, and Plots",App
+48,T,"Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Comparison and Similarity",App
+49,R,"Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; General Public",T&E
+50,DR,"Text/Document Data; Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Clustering and Aggregation; Feature Detection, Extraction, Tracking & Transformation",App
+51,R,Scalar Field Data; Algorithms; Guidelines; Human-Subjects Quantitative Studies; Color; Perception & Cognition,R&I
+52,A2,"Text/Document Data; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+53,A2,Machine Learning Techniques,App
+54,R,"Data Type Agnostic; Interaction Design; Taxonomy, Models, Frameworks, Theory; Domain Agnostic",T&E
+55,R-Strong,"Communication/Presentation, Storytelling",R&I
+56,R,"Scalar Field Data; Vector and Tensor Field Data; Data Abstractions & Types; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Clustering and Aggregation; Vector, Tensor & Flow Visualization",App
+57,R,Tabular Data; Interaction Design; Process/Workflow Design; Task Abstractions & Application Domains; Human-Subjects Quantitative Studies; Machine Learning Techniques,App
+58,T,"Graph/Network and Tree Data; Application Motivated Visualization; Deployment; Machine Learning, Statistics, Modelling, and Simulation Applications",App
+59,A2,"Scalar Field Data; Temporal Data; Data Management, Processing, Wrangling; Machine Learning Techniques",DTr
+60,R,"Scalar Field Data; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques",DTr
+61,R,"Guidelines; Taxonomy, Models, Frameworks, Theory; Communication/Presentation, Storytelling; Animation and Motion-related Techniques",T&E
+62,R-Strong,"Graph/Network and Tree Data; Application Motivated Visualization; Guidelines; Process/Workflow Design; Human-Subjects Qualitative Studies; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",A&D
+63,R-Strong,"Guidelines; Color; Communication/Presentation, Storytelling; Perception & Cognition",T&E
+64,R-Strong,"Other Data; Application Motivated Visualization; Physical & Environmental Sciences, Engineering, Mathematics",App
+65,A2,"Methodologies; Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies",T&E
+66,R,"Graph/Network and Tree Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Domain Agnostic; Personal Visualization, Personal Visual Analytics; Data Clustering and Aggregation; Charts, Diagrams, and Plots",A&D
+67,R,"Geospatial Data; Software Architecture, Toolkit/Library, Language",S&R
+68,DR,"Vector and Tensor Field Data; Algorithms; Application Motivated Visualization; Computational Benchmark Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation",App
+69,A2,"Graph/Network and Tree Data; Process/Workflow Design; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",R&I
+70,A2,"Visual Representation Design; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",T&E
+71,T,"Graph/Network and Tree Data; High-dimensional Data; Data Abstractions & Types; Methodologies; Task Abstractions & Application Domains; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Comparison and Similarity",A&D
+72,R,"State-of-the-art Survey; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",T&E
+73,A2,"Temporal Data; Visual Representation Design; Human-Subjects Quantitative Studies; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+74,R-Strong,Graph/Network and Tree Data; Machine Learning Techniques,S&R
+75,R-Strong,Data Clustering and Aggregation; Machine Learning Techniques,A&D
+76,R,"Graph/Network and Tree Data; Algorithms; Taxonomy, Models, Frameworks, Theory; Computational Benchmark Studies; Mathematical Foundations & Numerical Methods",S&R
+77,DR,"Geospatial Data; Temporal Data; Application Motivated Visualization; Guidelines; Interaction Design; State-of-the-art Survey; Physical & Environmental Sciences, Engineering, Mathematics; Color; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Perception & Cognition; Cartography, Maps",App
+78,A2,"Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Feature Detection, Extraction, Tracking & Transformation; Comparison and Similarity",App
+79,DR,"Graph/Network and Tree Data; Methodologies; Visual Representation Design; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Computer Graphics Techniques; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+80,R-Strong,Interaction Design; Human-Subjects Qualitative Studies,T&E
+81,R,Temporal Data; Algorithms; Interaction Design; Software Prototype; Domain Agnostic; General Public,App
+82,T,"Application Motivated Visualization; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+83,R,"Graph/Network and Tree Data; High-dimensional Data; Image and Video Data; Tabular Data; Text/Document Data; Application Motivated Visualization; Guidelines; Task Abstractions & Application Domains; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+84,R-Strong,Process/Workflow Design,A&D
+85,R,"High-dimensional Data; Image and Video Data; Interaction Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Dimensionality Reduction; Machine Learning Techniques",A&D
+86,R,"Temporal Data; Guidelines; Human-Subjects Quantitative Studies; Perception & Cognition; Data Clustering and Aggregation; Charts, Diagrams, and Plots",T&E
+87,R,"Graph/Network and Tree Data; Temporal Data; Algorithms; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Large-Scale Data Techniques",S&R
+88,DR,"Temporal Data; Algorithms; Datasets; Human-Subjects Quantitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Machine Learning Techniques",A&D
+89,R-Strong,"Tabular Data; Interaction Design; Process/Workflow Design; Software Prototype; Visual Representation Design; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Domain Agnostic; Mixed Initiative Human-Machine Analysis; Machine Learning Techniques; Charts, Diagrams, and Plots",R&I
+90,R,Scalar Field Data; Algorithms; Interaction Design; Domain Agnostic; Volume Rendering; Computer Graphics Techniques,S&R
+91,R,"Guidelines; Visual Representation Design; Human-Subjects Qualitative Studies; Communication/Presentation, Storytelling; General Public; Perception & Cognition; Art & Graphic Design; Other Topics and Techniques",R&I
+92,R,"Data Models; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Machine Learning Techniques",A&D
+93,A2,"Methodologies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",T&E
+94,R-Strong,"High-dimensional Data; Text/Document Data; Data Abstractions & Types; Machine Learning, Statistics, Modelling, and Simulation Applications; Machine Learning Techniques; Computational Topology-based Techniques; Comparison and Similarity",A&D
+95,A2,"Scalar Field Data; Algorithms; Software Architecture, Toolkit/Library, Language; Software Prototype; Computational Benchmark Studies; Large-Scale Data Techniques; Computational Topology-based Techniques; Specific Computing and Rendering Hardware",S&R
+96,A2,"Scalar Field Data; Algorithms; Machine Learning, Statistics, Modelling, and Simulation Applications; Machine Learning Techniques; Volume Rendering",S&R
+97,R,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis",T&E
+98,R,"Interaction Design; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Dimensionality Reduction",A&D
+99,R,"Perception & Cognition; Personal Visualization, Personal Visual Analytics",T&E
+100,R,"Guidelines; Interaction Design; Software Prototype; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Communication/Presentation, Storytelling; General Public; Perception & Cognition; Charts, Diagrams, and Plots",R&I
+101,R-Strong,Temporal Data; Algorithms; Animation and Motion-related Techniques; Art & Graphic Design; Computer Graphics Techniques,S&R
+102,A2,Scalar Field Data; Color,T&E
+103,R,"Graph/Network and Tree Data; Application Motivated Visualization; Software Prototype; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Charts, Diagrams, and Plots; Coordinated and Multiple Views",App
+104,A2,Graph/Network and Tree Data; Image and Video Data; Application Motivated Visualization; Art & Graphic Design,App
+105,A2,"Guidelines; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Perception & Cognition; Art & Graphic Design; Charts, Diagrams, and Plots",T&E
+106,R,Computational Benchmark Studies,DTr
+107,R-Strong,"Data Type Agnostic; State-of-the-art Survey; Taxonomy, Models, Frameworks, Theory; Domain Agnostic; Mixed Initiative Human-Machine Analysis",T&E
+108,A2,"Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+109,R,"General Public; Personal Visualization, Personal Visual Analytics; Art & Graphic Design; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+110,R,Temporal Data; Algorithms; Data Clustering and Aggregation; Large-Scale Data Techniques; Mathematical Foundations & Numerical Methods,DTr
+111,R,"Scalar Field Data; Algorithms; Domain Agnostic; Feature Detection, Extraction, Tracking & Transformation",DTr
+112,A2,"Machine Learning Techniques; Vector, Tensor & Flow Visualization",DTr
+113,R,Large-Scale Data Techniques; Volume Rendering; Specific Computing and Rendering Hardware,S&R
+114,R-Strong,"Graph/Network and Tree Data; Temporal Data; Algorithms; Interaction Design; Visual Representation Design; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",R&I
+115,T,"Image and Video Data; Text/Document Data; Application Motivated Visualization; Methodologies; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Feature Detection, Extraction, Tracking & Transformation; Charts, Diagrams, and Plots; Image and Signal Processing",App
+116,R,"Methodologies; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Communication/Presentation, Storytelling",T&E
+117,R-Strong,"Other Data; Application Motivated Visualization; Visual Representation Design; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Color; General Public; Perception & Cognition; Personal Visualization, Personal Visual Analytics; Animation and Motion-related Techniques",R&I
+118,R,"Geospatial Data; High-dimensional Data; Application Motivated Visualization; Interaction Design; Process/Workflow Design; Human-Subjects Qualitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Collaboration; Machine Learning Techniques; Coordinated and Multiple Views",App
+119,R,"Temporal Data; Software Architecture, Toolkit/Library, Language; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques",DTr
+120,A2,"Scalar Field Data; Guidelines; Methodologies; Human-Subjects Quantitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Color; Perception & Cognition; Animation and Motion-related Techniques; Coordinated and Multiple Views; Uncertainty Visualization",T&E
+121,R-Strong,"Scalar Field Data; Algorithms; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques; Mathematical Foundations & Numerical Methods; Computational Topology-based Techniques",DTr
+122,A2,Process/Workflow Design; Mixed Initiative Human-Machine Analysis,A&D
+123,R,"Text/Document Data; Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Mixed Initiative Human-Machine Analysis; Coordinated and Multiple Views",T&E
+124,A2,Tabular Data; Data Type Agnostic; Other Contribution; Domain Agnostic; Color; Machine Learning Techniques; Other Topics and Techniques,R&I
+125,A2,"High-dimensional Data; Temporal Data; Algorithms; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation",A&D
+126,A2,"Temporal Data; Guidelines; Human-Subjects Quantitative Studies; General Public; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+127,R,"Graph/Network and Tree Data; Temporal Data; Algorithms; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques",R&I
+128,A2,"Scalar Field Data; Methodologies; Software Architecture, Toolkit/Library, Language; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",S&R
+129,R-Strong,"Data Models; Data Abstractions & Types; Machine Learning, Statistics, Modelling, and Simulation Applications; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",A&D
+130,R,Scalar Field Data; Algorithms; Large-Scale Data Techniques; Multi-Resolution and Level of Detail Techniques,S&R
+131,R,Methodologies; Visual Representation Design; Art & Graphic Design,R&I
+132,R,"Temporal Data; Text/Document Data; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+133,A2,"Text/Document Data; Algorithms; Datasets; Taxonomy, Models, Frameworks, Theory; General Public; Machine Learning Techniques",R&I
+134,R-Strong,"High-dimensional Data; Vector and Tensor Field Data; Visual Representation Design; Human-Subjects Qualitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Color; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques; Vector, Tensor & Flow Visualization",T&E
+135,A2,Temporal Data; Large-Scale Data Techniques; Machine Learning Techniques; Volume Rendering,S&R
+136,R,"Human-Subjects Quantitative Studies; Color; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition",R&I
+137,R,Application Motivated Visualization; Methodologies; Coordinated and Multiple Views,App
+138,A2,Methodologies; Human-Subjects Quantitative Studies; Perception & Cognition; Machine Learning Techniques,T&E
+139,A2,"Geospatial Data; Methodologies; Visual Representation Design; Machine Learning Techniques; Cartography, Maps",DTr
+140,A2,"Methodologies; Taxonomy, Models, Frameworks, Theory",T&E
+141,DR,Algorithms; Application Motivated Visualization; Visual Representation Design; Art & Graphic Design; Computer Graphics Techniques,App
+142,R-Strong,"Graph/Network and Tree Data; High-dimensional Data; Text/Document Data; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+143,T,"Scalar Field Data; Algorithms; Physical & Environmental Sciences, Engineering, Mathematics; Isosurface Techniques; Volume Rendering; Computer Graphics Techniques",S&R
+144,R-Strong,"Data Type Agnostic; Guidelines; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Communication/Presentation, Storytelling; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+145,A2,"Data Type Agnostic; Guidelines; Methodologies; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Domain Agnostic; Personal Visualization, Personal Visual Analytics; Art & Graphic Design; Charts, Diagrams, and Plots; Other Topics and Techniques",T&E
+146,R-Strong,"Graph/Network and Tree Data; Application Motivated Visualization; Visual Representation Design; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition",App
+147,A2,Methodologies; Human-Subjects Qualitative Studies,R&I
+148,A2,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; General Public",T&E
+149,A2,Temporal Data; Algorithms; Data Abstractions & Types,DTr
+150,R-Strong,"Methodologies; Taxonomy, Models, Frameworks, Theory",T&E
+151,R-Strong,Scalar Field Data; Algorithms; Computational Topology-based Techniques,S&R
+152,R,"Text/Document Data; Application Motivated Visualization; Interaction Design; Software Prototype; Visual Representation Design; Human-Subjects Qualitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning, Statistics, Modelling, and Simulation Applications; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Perception & Cognition; Art & Graphic Design; Coordinated and Multiple Views",App
+153,R,"Datasets; Computational Benchmark Studies; Machine Learning Techniques; Charts, Diagrams, and Plots",DTr
+154,R-Strong,"Tabular Data; Text/Document Data; Other Data; Application Motivated Visualization; Methodologies; Visual Representation Design; Human-Subjects Quantitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public; Perception & Cognition; Data Management, Processing, Wrangling; Feature Detection, Extraction, Tracking & Transformation; Animation and Motion-related Techniques; Art & Graphic Design",R&I
+155,A2,"Other Data; Algorithms; Data Abstractions & Types; Computational Benchmark Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques",T&E
+156,R,"Software Prototype; Taxonomy, Models, Frameworks, Theory; Other Contribution; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; General Public; Perception & Cognition; Charts, Diagrams, and Plots",App
+157,R,"Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+158,A2,Process/Workflow Design; Computational Benchmark Studies; Machine Learning Techniques,S&R
+159,R,"Graph/Network and Tree Data; Text/Document Data; Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies",R&I
+160,R,"Temporal Data; Application Motivated Visualization; Other Contribution; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",A&D
+161,DR,"Text/Document Data; Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making; Uncertainty Visualization",A&D
+162,R,Algorithms; Computational Benchmark Studies; Human-Subjects Quantitative Studies; Color,T&E
+163,A2,Guidelines; Human-Subjects Quantitative Studies; Color; Perception & Cognition,T&E
+164,R-Strong,"Guidelines; General Public; Personal Visualization, Personal Visual Analytics; Other Topics and Techniques",R&I
+165,R,"Taxonomy, Models, Frameworks, Theory; Mixed Initiative Human-Machine Analysis",T&E
+166,R-Strong,"Text/Document Data; Application Motivated Visualization; Process/Workflow Design; Task Abstractions & Application Domains; Human-Subjects Qualitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Mixed Initiative Human-Machine Analysis",App
+167,R-Strong,"Taxonomy, Models, Frameworks, Theory; Data Management, Processing, Wrangling",T&E
+168,R,High-dimensional Data; Algorithms; Domain Agnostic; Dimensionality Reduction; Multi-Resolution and Level of Detail Techniques,DTr
+169,R,"Text/Document Data; Process/Workflow Design; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Comparison and Similarity; Coordinated and Multiple Views",A&D
+170,R,"Graph/Network and Tree Data; Temporal Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Data Clustering and Aggregation; Feature Detection, Extraction, Tracking & Transformation; Charts, Diagrams, and Plots; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques",App
+171,T,Human-Subjects Qualitative Studies; General Public; Perception & Cognition,T&E
+172,R,"Geospatial Data; Algorithms; Machine Learning, Statistics, Modelling, and Simulation Applications; Physical & Environmental Sciences, Engineering, Mathematics; Machine Learning Techniques; Volume Rendering",App
+173,R,High-dimensional Data; Algorithms; Dimensionality Reduction,DTr
+174,R,"Temporal Data; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Feature Detection, Extraction, Tracking & Transformation",DTr
+175,R,"Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Feature Detection, Extraction, Tracking & Transformation",App
+176,A2,"Guidelines; Methodologies; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Perception & Cognition; Machine Learning Techniques; Charts, Diagrams, and Plots",T&E
+177,T,Dimensionality Reduction; Machine Learning Techniques,App
+178,T,"Application Motivated Visualization; Software Prototype; Physical & Environmental Sciences, Engineering, Mathematics; Comparison and Similarity; Coordinated and Multiple Views",App
+179,T,"Temporal Data; Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Personal Visualization, Personal Visual Analytics",App
+180,R-Strong,"Temporal Data; Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+181,A2,"Process/Workflow Design; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",A&D
+182,R-Strong,"Graph/Network and Tree Data; Algorithms; Application Motivated Visualization; Guidelines; Software Prototype; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Personal Visualization, Personal Visual Analytics; Multi-Resolution and Level of Detail Techniques",S&R
+183,A2,"Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Communication/Presentation, Storytelling; Art & Graphic Design; Cartography, Maps",R&I
+184,A2,"Tabular Data; Datasets; Machine Learning Techniques; Charts, Diagrams, and Plots",App
+185,T,"Graph/Network and Tree Data; Application Motivated Visualization; Task Abstractions & Application Domains; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",App
+186,R,"Guidelines; General Public; Mathematical Foundations & Numerical Methods; Charts, Diagrams, and Plots",T&E
+187,R-Strong,"Computational Benchmark Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+188,A2,"High-dimensional Data; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Dimensionality Reduction",App
+189,R-Strong,"High-dimensional Data; Datasets; Machine Learning, Statistics, Modelling, and Simulation Applications; Image and Signal Processing",R&I
+190,A2,"Software Architecture, Toolkit/Library, Language; Charts, Diagrams, and Plots",R&I
+191,A2,Methodologies; Human-Subjects Quantitative Studies; Perception & Cognition; Other Topics and Techniques,T&E
+192,R-Strong,"Graph/Network and Tree Data; Text/Document Data; Feature Detection, Extraction, Tracking & Transformation",DTr
+193,R-Strong,"Data Type Agnostic; State-of-the-art Survey; Domain Agnostic; Data Management, Processing, Wrangling; Charts, Diagrams, and Plots",DTr
+194,DR,"Image and Video Data; Algorithms; Computational Benchmark Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Image and Signal Processing",App
+195,R-Strong,Geospatial Data; Graph/Network and Tree Data; Methodologies; Computational Benchmark Studies,T&E
+196,R,"Data Type Agnostic; Application Motivated Visualization; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Domain Agnostic; Communication/Presentation, Storytelling; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+197,R,Scalar Field Data; Algorithms; Machine Learning Techniques; Volume Rendering,S&R
+198,A2,"Scalar Field Data; Interaction Design; Communication/Presentation, Storytelling; Machine Learning Techniques",R&I
+199,T,Scalar Field Data; Temporal Data; Machine Learning Techniques,DTr
+200,A2,"Personal Visualization, Personal Visual Analytics; Art & Graphic Design; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+201,R,"Scalar Field Data; Interaction Design; Process/Workflow Design; Software Prototype; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",S&R
+202,A2,"Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Human-Subjects Qualitative Studies; Communication/Presentation, Storytelling",R&I
+203,R,"Text/Document Data; Application Motivated Visualization; Software Prototype; Task Abstractions & Application Domains; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Machine Learning Techniques",A&D
+204,R,Human-Subjects Quantitative Studies; Perception & Cognition,T&E
+205,R,"Text/Document Data; Application Motivated Visualization; Task Abstractions & Application Domains; Visual Representation Design; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+206,R-Strong,Graph/Network and Tree Data; Application Motivated Visualization,App
+207,R,"Geospatial Data; Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+208,R,"Application Motivated Visualization; Data Abstractions & Types; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+209,R,"Guidelines; Communication/Presentation, Storytelling",T&E
+210,R-Strong,Graph/Network and Tree Data; Interaction Design; Human-Subjects Qualitative Studies,T&E
+211,A2,"Image and Video Data; Application Motivated Visualization; Animation and Motion-related Techniques; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",App
+212,A2,Guidelines; Human-Subjects Quantitative Studies; Color; General Public; Perception & Cognition,T&E
+213,R,"Temporal Data; Data Abstractions & Types; Process/Workflow Design; Other Contribution; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",A&D
+214,R,"Taxonomy, Models, Frameworks, Theory; General Public; Personal Visualization, Personal Visual Analytics",T&E
+215,R,"Tabular Data; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling",DTr
+216,R-Strong,Image and Video Data; Process/Workflow Design,App
+217,T,Graph/Network and Tree Data; Image and Video Data; Methodologies; Visual Representation Design; Data Clustering and Aggregation; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques,App
+218,R,"Human-Subjects Quantitative Studies; General Public; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+219,R-Strong,"Interaction Design; Human-Subjects Quantitative Studies; Perception & Cognition; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+220,R-Strong,"Application Motivated Visualization; Guidelines; Methodologies; Software Prototype; Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Communication/Presentation, Storytelling; General Public; Mixed Initiative Human-Machine Analysis; Perception & Cognition; Personal Visualization, Personal Visual Analytics",App
+221,R-Strong,"Data Models; High-dimensional Data; Algorithms; Application Motivated Visualization; Methodologies; Process/Workflow Design; Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Charts, Diagrams, and Plots; Uncertainty Visualization",A&D
+222,R,Interaction Design; Machine Learning Techniques; Coordinated and Multiple Views,R&I
+223,R,"Geospatial Data; Temporal Data; Algorithms; Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Clustering and Aggregation; Dimensionality Reduction",A&D
+224,R,"Data Models; Graph/Network and Tree Data; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",A&D
+225,R,"Temporal Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Charts, Diagrams, and Plots; Uncertainty Visualization",T&E
+226,R-Strong,Graph/Network and Tree Data; Algorithms; Computational Benchmark Studies; Perception & Cognition,T&E
+227,A2,"High-dimensional Data; Image and Video Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation; Comparison and Similarity",App
+228,R-Strong,Text/Document Data; Application Motivated Visualization,App
+229,A2,Methodologies; Human-Subjects Qualitative Studies,T&E
+230,R-Strong,"Scalar Field Data; Algorithms; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Volume Rendering; Computer Graphics Techniques",S&R
+231,A2,"Interaction Design; Methodologies; Visual Representation Design; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; General Public; Cartography, Maps",T&E
+232,R,"Graph/Network and Tree Data; Methodologies; Process/Workflow Design; Software Prototype; Visual Representation Design; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Data Analysis, Reasoning, Problem Solving, and Decision Making; Large-Scale Data Techniques; Machine Learning Techniques; Charts, Diagrams, and Plots; Coordinated and Multiple Views",A&D
+233,R,Algorithms; Large-Scale Data Techniques,S&R
+234,R,Interaction Design; Human-Subjects Qualitative Studies,R&I
+235,R,"Process/Workflow Design; Communication/Presentation, Storytelling",R&I
+236,R,Data Models; Guidelines,DTr
+237,R-Strong,"High-dimensional Data; Other Data; Domain Agnostic; Feature Detection, Extraction, Tracking & Transformation; Uncertainty Visualization",A&D
+238,R,"Interaction Design; Software Prototype; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Coordinated and Multiple Views; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+239,R,"Software Architecture, Toolkit/Library, Language; Machine Learning Techniques",S&R
+240,R,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Domain Agnostic",T&E
+241,R-Strong,"Application Motivated Visualization; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Uncertainty Visualization",A&D
+242,T,Graph/Network and Tree Data; Algorithms; Machine Learning Techniques,S&R
+243,R-Strong,"Scalar Field Data; Algorithms; Physical & Environmental Sciences, Engineering, Mathematics; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques",App
+244,R,"Scalar Field Data; Interaction Design; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Volume Rendering; Coordinated and Multiple Views; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+245,R-Strong,Computational Topology-based Techniques,DTr
+246,R-Strong,"Text/Document Data; Algorithms; Machine Learning, Statistics, Modelling, and Simulation Applications; Other Application Areas; Image and Signal Processing",App
+247,R-Strong,"Graph/Network and Tree Data; Datasets; Guidelines; Computational Benchmark Studies; Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Charts, Diagrams, and Plots; Comparison and Similarity",T&E
+248,A2,"Process/Workflow Design; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+249,R-Strong,"Geospatial Data; High-dimensional Data; Image and Video Data; Application Motivated Visualization; Methodologies; Visual Representation Design; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Feature Detection, Extraction, Tracking & Transformation; Comparison and Similarity; Uncertainty Visualization",R&I
+250,A2,"Image and Video Data; Application Motivated Visualization; Interaction Design; Process/Workflow Design; Software Prototype; Visual Representation Design; Human-Subjects Qualitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Charts, Diagrams, and Plots; Comparison and Similarity",A&D
+251,R,"Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",S&R
+252,R,"Text/Document Data; Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation",App
+253,T,High-dimensional Data; Dimensionality Reduction,DTr
+254,R-Strong,Graph/Network and Tree Data; Algorithms; Interaction Design; Visual Representation Design; Human-Subjects Quantitative Studies; Perception & Cognition; Animation and Motion-related Techniques,R&I
+255,R,"Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public",T&E
+256,R,State-of-the-art Survey; Human-Subjects Quantitative Studies; General Public,T&E
+257,A2,"Text/Document Data; Application Motivated Visualization; Software Prototype; Human-Subjects Qualitative Studies; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Machine Learning Techniques; Charts, Diagrams, and Plots; Coordinated and Multiple Views",App
+258,R,Color; Perception & Cognition,T&E
+259,R-Strong,"Application Motivated Visualization; Visual Representation Design; Human-Subjects Qualitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications",App
+260,R,"Application Motivated Visualization; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Personal Visualization, Personal Visual Analytics",App
+261,T,Graph/Network and Tree Data; Other Contribution; Computational Benchmark Studies; Domain Agnostic; Machine Learning Techniques,T&E
+262,A2,"Image and Video Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Large-Scale Data Techniques; Multi-Resolution and Level of Detail Techniques",App
+263,R-Strong,"Data Type Agnostic; Deployment; Methodologies; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Other Contribution; Computational Benchmark Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Machine Learning Techniques; Other Topics and Techniques",S&R
+264,A2,"Graph/Network and Tree Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+265,A2,"Text/Document Data; Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+266,R-Strong,Geospatial Data; High-dimensional Data; Methodologies; Computational Benchmark Studies; Large-Scale Data Techniques; Machine Learning Techniques,A&D
+267,R,"High-dimensional Data; Text/Document Data; Application Motivated Visualization; Deployment; Interaction Design; Software Prototype; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Machine Learning Techniques; Animation and Motion-related Techniques",A&D
+268,R,"Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+269,R,"Datasets; Guidelines; Human-Subjects Qualitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making",T&E
+270,R,Human-Subjects Qualitative Studies; General Public,App
+271,R-Strong,"Geospatial Data; Graph/Network and Tree Data; State-of-the-art Survey; Taxonomy, Models, Frameworks, Theory; Physical & Environmental Sciences, Engineering, Mathematics",App
+272,A2,"Guidelines; Interaction Design; Taxonomy, Models, Frameworks, Theory",T&E
+273,R,Guidelines; Methodologies; Dimensionality Reduction,T&E
+274,T,"Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Coordinated and Multiple Views",App
+275,A2,Scalar Field Data; Process/Workflow Design,S&R
+276,A2,"Process/Workflow Design; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation",App
+277,A2,"Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Management, Processing, Wrangling",App
+278,T,Geospatial Data; Scalar Field Data; Application Motivated Visualization; Machine Learning Techniques; Computer Graphics Techniques,App
+279,R-Strong,"Tabular Data; Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+280,DR,"Image and Video Data; Algorithms; Methodologies; Computational Benchmark Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; General Public; Machine Learning Techniques; Mathematical Foundations & Numerical Methods; Vector, Tensor & Flow Visualization; Multi-Resolution and Level of Detail Techniques",DTr
+281,R-Strong,"Data Models; Process/Workflow Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Physical & Environmental Sciences, Engineering, Mathematics",App
+282,R,"Communication/Presentation, Storytelling; Animation and Motion-related Techniques",R&I
+283,R,"Data Models; High-dimensional Data; Scalar Field Data; Physical & Environmental Sciences, Engineering, Mathematics; Machine Learning Techniques; Mathematical Foundations & Numerical Methods; Uncertainty Visualization",DTr
+284,A2,"Geospatial Data; Graph/Network and Tree Data; Algorithms; Interaction Design; Software Prototype; Art & Graphic Design; Cartography, Maps",App
+285,A2,"Geospatial Data; Software Architecture, Toolkit/Library, Language",S&R
+286,R,"Vector and Tensor Field Data; Algorithms; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques; Vector, Tensor & Flow Visualization",S&R
+287,R-Strong,"Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Other Application Areas",App
+288,A2,"High-dimensional Data; Tabular Data; Temporal Data; Data Abstractions & Types; Process/Workflow Design; Software Prototype; Visual Representation Design; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning, Statistics, Modelling, and Simulation Applications; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Charts, Diagrams, and Plots; Comparison and Similarity; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques",R&I
+289,A2,"Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+290,R-Strong,"Scalar Field Data; Algorithms; Application Motivated Visualization; Data Management, Processing, Wrangling; Large-Scale Data Techniques; Volume Rendering; Computer Graphics Techniques; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+291,A2,Temporal Data; Application Motivated Visualization; Task Abstractions & Application Domains; Visual Representation Design,R&I
+292,R-Strong,Vector and Tensor Field Data; Algorithms; Machine Learning Techniques,T&E
+293,DR,"Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public; Perception & Cognition",App
+294,R,"Data Type Agnostic; Other Contribution; Collaboration; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",T&E
+295,A2,"Tabular Data; Taxonomy, Models, Frameworks, Theory",T&E
+296,DR,"Data Models; Image and Video Data; Taxonomy, Models, Frameworks, Theory; Physical & Environmental Sciences, Engineering, Mathematics; Machine Learning Techniques; Comparison and Similarity",App
+297,R,Graph/Network and Tree Data; Temporal Data; Visual Representation Design,R&I
+298,A2,High-dimensional Data; Algorithms; Dimensionality Reduction,DTr
+299,A2,"Guidelines; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Perception & Cognition",T&E
+300,A2,"Taxonomy, Models, Frameworks, Theory; Multi-Resolution and Level of Detail Techniques",T&E
+301,A2,"Application Motivated Visualization; Data Abstractions & Types; Machine Learning, Statistics, Modelling, and Simulation Applications; Multi-Resolution and Level of Detail Techniques",App
+302,R-Strong,"Application Motivated Visualization; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Collaboration; Machine Learning Techniques",S&R
+303,R,"Other Data; Process/Workflow Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Machine Learning Techniques; Other Topics and Techniques",A&D
+304,A2,"Image and Video Data; Task Abstractions & Application Domains; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+305,A2,High-dimensional Data; Algorithms; Dimensionality Reduction,DTr
+306,R,"Guidelines; Taxonomy, Models, Frameworks, Theory; Communication/Presentation, Storytelling",T&E
+307,R,Scalar Field Data; Algorithms; Application Motivated Visualization; Volume Rendering,App
+308,R-Strong,"Perception & Cognition; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+309,R,"Geospatial Data; Guidelines; Task Abstractions & Application Domains; Taxonomy, Models, Frameworks, Theory; Cartography, Maps",T&E
+310,R,"Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+311,DR,"Data Models; Image and Video Data; Text/Document Data; Data Abstractions & Types; Interaction Design; Visual Representation Design; Human-Subjects Qualitative Studies; Color; Communication/Presentation, Storytelling; General Public; Mixed Initiative Human-Machine Analysis; Perception & Cognition; Personal Visualization, Personal Visual Analytics; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Animation and Motion-related Techniques; Art & Graphic Design; Computer Graphics Techniques; Image and Signal Processing; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware; Uncertainty Visualization",R&I
+312,R,"Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Clustering and Aggregation; Uncertainty Visualization",R&I
+313,A2,"Temporal Data; Data Abstractions & Types; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Comparison and Similarity",A&D
+314,R,High-dimensional Data; Algorithms; Data Clustering and Aggregation; Dimensionality Reduction,DTr
+315,R-Strong,Machine Learning Techniques; Uncertainty Visualization,T&E
+316,R,"Task Abstractions & Application Domains; Taxonomy, Models, Frameworks, Theory; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques",T&E
+317,R,"Scalar Field Data; Temporal Data; Algorithms; Data Abstractions & Types; Data Management, Processing, Wrangling; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques; Computational Topology-based Techniques",DTr
+318,R-Strong,"Guidelines; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Other Topics and Techniques",App
+319,R-Strong,"Text/Document Data; Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+320,DR,Image and Video Data; Application Motivated Visualization; Guidelines; Software Prototype; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Perception & Cognition,App
+321,T,Graph/Network and Tree Data,DTr
+322,T,"Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+323,R-Strong,"Interaction Design; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+324,R,"Other Contribution; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; General Public; Perception & Cognition; Charts, Diagrams, and Plots; Uncertainty Visualization",T&E
+325,DR,"Software Prototype; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Perception & Cognition; Art & Graphic Design",R&I
+326,R-Strong,"Datasets; Deployment; Guidelines; Methodologies; Machine Learning, Statistics, Modelling, and Simulation Applications; Large-Scale Data Techniques; Charts, Diagrams, and Plots",T&E
+327,R,"Text/Document Data; Interaction Design; Process/Workflow Design; Data Analysis, Reasoning, Problem Solving, and Decision Making; Dimensionality Reduction; Machine Learning Techniques",A&D
+328,R-Strong,"Geospatial Data; Deployment; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Software Prototype",App
+329,R,"High-dimensional Data; Algorithms; Guidelines; Taxonomy, Models, Frameworks, Theory; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Dimensionality Reduction; Coordinated and Multiple Views",DTr
+330,R,Other Data; Software Prototype; Computational Benchmark Studies,A&D
+331,R,"High-dimensional Data; Temporal Data; Process/Workflow Design; Domain Agnostic; Data Management, Processing, Wrangling",App
+332,R-Strong,Application Motivated Visualization; Visual Representation Design; General Public,R&I
+333,R,"Text/Document Data; Machine Learning, Statistics, Modelling, and Simulation Applications",App
+334,DR,"Data Clustering and Aggregation; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+335,R,"Guidelines; Communication/Presentation, Storytelling",T&E
+336,R,"Temporal Data; Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+337,A2,High-dimensional Data; Tabular Data; Other Contribution; Mathematical Foundations & Numerical Methods,T&E
+338,R-Strong,"Tabular Data; Temporal Data; Text/Document Data; Application Motivated Visualization; Guidelines; Interaction Design; Methodologies; Process/Workflow Design; Task Abstractions & Application Domains; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Domain Agnostic; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Perception & Cognition; Comparison and Similarity; Coordinated and Multiple Views; Uncertainty Visualization",App
+339,R,Temporal Data; Visual Representation Design; Human-Subjects Quantitative Studies; Uncertainty Visualization,T&E
+340,R,"Application Motivated Visualization; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",App
+341,R,Scalar Field Data; Algorithms; Isosurface Techniques,S&R
+342,DR,"Other Contribution; Collaboration; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis",T&E
+343,R,"Data Models; Process/Workflow Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation",A&D
+344,DR,"Data Models; Geospatial Data; High-dimensional Data; Algorithms; Machine Learning, Statistics, Modelling, and Simulation Applications; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition",App
+345,A2,"Data Models; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Perception & Cognition",R&I
+346,R-Strong,"Graph/Network and Tree Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+347,A2,Graph/Network and Tree Data; Algorithms; Computational Benchmark Studies,S&R
+348,A2,"Datasets; Computational Benchmark Studies; Machine Learning Techniques; Charts, Diagrams, and Plots",T&E
+349,R,"Geospatial Data; Interaction Design; Human-Subjects Quantitative Studies; Perception & Cognition; Animation and Motion-related Techniques; Cartography, Maps; Multi-Resolution and Level of Detail Techniques",App
+350,R,"Data Type Agnostic; Process/Workflow Design; Software Prototype; Other Contribution; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Collaboration",A&D
+351,T,"Application Motivated Visualization; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",App
+352,A2,"Image and Video Data; General Public; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Image and Signal Processing",DTr
+353,R-Strong,Graph/Network and Tree Data; Datasets; Computational Benchmark Studies,T&E
+354,A2,"Temporal Data; Vector and Tensor Field Data; Vector, Tensor & Flow Visualization",S&R
+355,R,Human-Subjects Quantitative Studies; Perception & Cognition,T&E
+356,R-Strong,"Tabular Data; Temporal Data; Data Type Agnostic; Data Abstractions & Types; Guidelines; Process/Workflow Design; Software Prototype; Visual Representation Design; Color; Communication/Presentation, Storytelling; Mixed Initiative Human-Machine Analysis; Data Management, Processing, Wrangling; Other Topics and Techniques",R&I
+357,A2,Datasets,App
+358,R-Strong,"Methodologies; Human-Subjects Quantitative Studies; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+359,A2,"Data Analysis, Reasoning, Problem Solving, and Decision Making; Art & Graphic Design; Image and Signal Processing; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",A&D
+360,R-Strong,Graph/Network and Tree Data; Algorithms; Visual Representation Design; Human-Subjects Quantitative Studies,T&E
+361,R-Strong,Methodologies; Task Abstractions & Application Domains; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Other Application Areas; Perception & Cognition,T&E
+362,R,"Tabular Data; Software Architecture, Toolkit/Library, Language",S&R
+363,R,"Graph/Network and Tree Data; Guidelines; Methodologies; Process/Workflow Design; Taxonomy, Models, Frameworks, Theory",T&E
+364,R,"High-dimensional Data; Task Abstractions & Application Domains; Visual Representation Design; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",A&D
+365,A2,"Data Type Agnostic; Software Architecture, Toolkit/Library, Language; Domain Agnostic; Charts, Diagrams, and Plots",S&R
+366,R,"Application Motivated Visualization; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis",A&D
+367,R,"Data Type Agnostic; Taxonomy, Models, Frameworks, Theory; Art & Graphic Design",T&E
+368,R,"Scalar Field Data; Vector and Tensor Field Data; Algorithms; Physical & Environmental Sciences, Engineering, Mathematics; Feature Detection, Extraction, Tracking & Transformation; Vector, Tensor & Flow Visualization",App
+369,R-Strong,"Other Data; Taxonomy, Models, Frameworks, Theory; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Other Topics and Techniques",T&E
+370,R,"High-dimensional Data; Application Motivated Visualization; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+371,R,"Software Prototype; Data Clustering and Aggregation; Large-Scale Data Techniques; Charts, Diagrams, and Plots",App
+372,R,"Geospatial Data; Temporal Data; Algorithms; Visual Representation Design; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Color; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Large-Scale Data Techniques; Computer Graphics Techniques",S&R
+373,R,"Temporal Data; Application Motivated Visualization; Visual Representation Design; Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+374,DR,"Data Models; Algorithms; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques; Image and Signal Processing",DTr
+375,R,"High-dimensional Data; Machine Learning, Statistics, Modelling, and Simulation Applications; Dimensionality Reduction; Machine Learning Techniques; Mathematical Foundations & Numerical Methods",DTr
+376,R-Strong,"Temporal Data; Algorithms; Methodologies; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Feature Detection, Extraction, Tracking & Transformation",A&D
+377,A2,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Personal Visualization, Personal Visual Analytics; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+378,A2,Geospatial Data; Temporal Data; Application Motivated Visualization; Process/Workflow Design; Data Clustering and Aggregation,App
+379,R-Strong,"Graph/Network and Tree Data; Taxonomy, Models, Frameworks, Theory; Other Application Areas",R&I
+380,A2,Visual Representation Design; Human-Subjects Qualitative Studies,T&E
+381,R,"Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Comparison and Similarity",A&D
+382,A2,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; General Public",T&E
+383,R,Visual Representation Design; Human-Subjects Quantitative Studies; Comparison and Similarity,R&I
+384,A2,"Tabular Data; Other Data; Visual Representation Design; Charts, Diagrams, and Plots",R&I
+385,R-Strong,Text/Document Data; Algorithms; Perception & Cognition,S&R
+386,DR,Temporal Data; Visual Representation Design; Perception & Cognition,R&I
+387,A2,"High-dimensional Data; Image and Video Data; Algorithms; Software Architecture, Toolkit/Library, Language; Machine Learning, Statistics, Modelling, and Simulation Applications; Dimensionality Reduction; Machine Learning Techniques; Multi-Resolution and Level of Detail Techniques",App
+388,A2,"Tabular Data; Visual Representation Design; Human-Subjects Quantitative Studies; Domain Agnostic; Perception & Cognition; Charts, Diagrams, and Plots",R&I
+389,R-Strong,"Graph/Network and Tree Data; Image and Video Data; Scalar Field Data; Feature Detection, Extraction, Tracking & Transformation; Computational Topology-based Techniques",App
+390,R-Strong,"Tabular Data; Taxonomy, Models, Frameworks, Theory; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Other Topics and Techniques",A&D
+391,R-Strong,"Tabular Data; Application Motivated Visualization; Data Management, Processing, Wrangling; Charts, Diagrams, and Plots",DTr
+392,T,"Application Motivated Visualization; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public; Uncertainty Visualization",App
+393,R,Temporal Data; Application Motivated Visualization; Data Abstractions & Types; Machine Learning Techniques; Animation and Motion-related Techniques,S&R
+394,R,"Image and Video Data; Text/Document Data; Machine Learning, Statistics, Modelling, and Simulation Applications; Machine Learning Techniques",A&D
+395,R-Strong,"Geospatial Data; High-dimensional Data; Scalar Field Data; Tabular Data; Temporal Data; Vector and Tensor Field Data; Other Data; Application Motivated Visualization; Data Abstractions & Types; Visual Representation Design; Human-Subjects Qualitative Studies; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Data Management, Processing, Wrangling; Dimensionality Reduction; Isosurface Techniques; Vector, Tensor & Flow Visualization; Cartography, Maps; Charts, Diagrams, and Plots; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques; Uncertainty Visualization; Other Topics and Techniques",App
+396,DR,"Guidelines; Methodologies; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Domain Agnostic; Communication/Presentation, Storytelling; Personal Visualization, Personal Visual Analytics; Art & Graphic Design; Charts, Diagrams, and Plots",T&E
+397,R-Strong,"Graph/Network and Tree Data; Tabular Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Machine Learning Techniques; Comparison and Similarity",A&D
+398,R,"Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Cartography, Maps; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",T&E
+399,R-Strong,"High-dimensional Data; Temporal Data; Other Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Multi-Resolution and Level of Detail Techniques",App
+400,R,"Data Models; Image and Video Data; Software Prototype; Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation",App
+401,T,"Graph/Network and Tree Data; Visual Representation Design; Domain Agnostic; Charts, Diagrams, and Plots",R&I
+402,R,"Data Type Agnostic; Taxonomy, Models, Frameworks, Theory; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Domain Agnostic; Perception & Cognition",T&E
+403,R,"Image and Video Data; Process/Workflow Design; Feature Detection, Extraction, Tracking & Transformation",DTr
+404,A2,"Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public; Art & Graphic Design; Cartography, Maps",R&I
+405,T,"Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+406,R,"Temporal Data; Interaction Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Perception & Cognition; Vector, Tensor & Flow Visualization; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+407,R,"Guidelines; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Human-Subjects Qualitative Studies",T&E
+408,R,"High-dimensional Data; Scalar Field Data; Temporal Data; Application Motivated Visualization; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques; Machine Learning Techniques; Volume Rendering; Computer Graphics Techniques",S&R
+409,A2,"Communication/Presentation, Storytelling",R&I
+410,R,Machine Learning Techniques; Volume Rendering,S&R
+411,T,"Temporal Data; Algorithms; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",A&D
+412,A2,Graph/Network and Tree Data; Visual Representation Design; Human-Subjects Quantitative Studies,R&I
+413,R-Strong,"Scalar Field Data; Software Prototype; Physical & Environmental Sciences, Engineering, Mathematics; Machine Learning Techniques; Isosurface Techniques; Volume Rendering; Computer Graphics Techniques; Multi-Resolution and Level of Detail Techniques",S&R
+414,R,"Data Models; Other Contribution; Human-Subjects Quantitative Studies; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Charts, Diagrams, and Plots",T&E
+415,R,"Interaction Design; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+416,A2,"Image and Video Data; Temporal Data; Text/Document Data; Methodologies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Machine Learning Techniques",T&E
+417,R-Strong,"Software Architecture, Toolkit/Library, Language; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Charts, Diagrams, and Plots",T&E
+418,R,"Image and Video Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling",App
+419,R-Strong,"Graph/Network and Tree Data; Application Motivated Visualization; Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Dimensionality Reduction",A&D
+420,A2,"Taxonomy, Models, Frameworks, Theory; Communication/Presentation, Storytelling; Other Topics and Techniques",T&E
+421,T,"Text/Document Data; Domain Agnostic; Communication/Presentation, Storytelling",App
+422,R,Graph/Network and Tree Data; Visual Representation Design,R&I
+423,R-Strong,"State-of-the-art Survey; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public",R&I
+424,A2,Human-Subjects Qualitative Studies,T&E
+425,R-Strong,Interaction Design; General Public,R&I
+426,A2,"Guidelines; Interaction Design; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Perception & Cognition; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+427,R,"Software Architecture, Toolkit/Library, Language; Machine Learning Techniques; Art & Graphic Design",R&I
+428,R,"Temporal Data; Application Motivated Visualization; Other Application Areas; Charts, Diagrams, and Plots",App
+429,A2,"Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Perception & Cognition; Charts, Diagrams, and Plots; Comparison and Similarity",T&E
+430,R-Strong,"Scalar Field Data; Datasets; Methodologies; Other Application Areas; Collaboration; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling",App
+431,R,"Data Type Agnostic; Software Architecture, Toolkit/Library, Language; Domain Agnostic; Charts, Diagrams, and Plots; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+432,R-Strong,"Datasets; Charts, Diagrams, and Plots",T&E
+433,R-Strong,"Temporal Data; Data Abstractions & Types; Process/Workflow Design; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Feature Detection, Extraction, Tracking & Transformation; Charts, Diagrams, and Plots; Comparison and Similarity",App
+434,R,"State-of-the-art Survey; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Collaboration",App
+435,R,"Tabular Data; Algorithms; Interaction Design; Visual Representation Design; Human-Subjects Quantitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Communication/Presentation, Storytelling",R&I
+436,R-Strong,"Data Models; Graph/Network and Tree Data; Text/Document Data; Application Motivated Visualization; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Coordinated and Multiple Views",App
+437,A2,"Temporal Data; Vector and Tensor Field Data; Feature Detection, Extraction, Tracking & Transformation",App
+438,A2,"Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Clustering and Aggregation",A&D
+439,A2,"Visual Representation Design; Human-Subjects Quantitative Studies; Communication/Presentation, Storytelling; General Public; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",T&E
+440,R-Strong,"High-dimensional Data; Scalar Field Data; Vector and Tensor Field Data; Interaction Design; Methodologies; Software Prototype; Human-Subjects Quantitative Studies; Computer Graphics Techniques; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+441,R,Scalar Field Data; Volume Rendering,S&R
+442,R-Strong,"High-dimensional Data; Algorithms; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",DTr
+443,R,"Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Data Clustering and Aggregation; Machine Learning Techniques",A&D
+444,A2,"Tabular Data; Algorithms; Software Architecture, Toolkit/Library, Language; Computational Benchmark Studies; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling; Large-Scale Data Techniques; Coordinated and Multiple Views",S&R
+445,R,"Data Models; Algorithms; Interaction Design; Software Prototype; Visual Representation Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; General Public; Comparison and Similarity; Coordinated and Multiple Views",R&I
+446,T,"Guidelines; State-of-the-art Survey; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",T&E
+447,R,Human-Subjects Qualitative Studies; Perception & Cognition,T&E
+448,R-Strong,"Methodologies; Visual Representation Design; Domain Agnostic; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques; Other Topics and Techniques",App
+449,R,High-dimensional Data; Application Motivated Visualization,S&R
+450,R-Strong,"Data Models; Algorithms; Software Prototype; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Communication/Presentation, Storytelling; General Public; Dimensionality Reduction; Computational Topology-based Techniques",R&I
+451,R,"Geospatial Data; Graph/Network and Tree Data; Temporal Data; Application Motivated Visualization; Process/Workflow Design; Software Prototype; Task Abstractions & Application Domains; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Feature Detection, Extraction, Tracking & Transformation; Cartography, Maps; Charts, Diagrams, and Plots; Coordinated and Multiple Views",App
+452,R,"Application Motivated Visualization; Visual Representation Design; Communication/Presentation, Storytelling",App
+453,R-Strong,"Image and Video Data; Temporal Data; Other Data; Application Motivated Visualization; Process/Workflow Design; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Other Application Areas; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Data Clustering and Aggregation; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",R&I
+454,R-Strong,"Other Data; Algorithms; Visual Representation Design; Charts, Diagrams, and Plots",T&E
+455,A2,"Image and Video Data; Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+456,R-Strong,"Temporal Data; Methodologies; Visual Representation Design; Human-Subjects Quantitative Studies; Perception & Cognition; Charts, Diagrams, and Plots; Coordinated and Multiple Views",T&E
+457,R,"Data Type Agnostic; Taxonomy, Models, Frameworks, Theory; Machine Learning, Statistics, Modelling, and Simulation Applications; Domain Agnostic; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis",T&E
+458,R,"Process/Workflow Design; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis",R&I
+459,R,"Application Motivated Visualization; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+460,R-Strong,"Image and Video Data; Task Abstractions & Application Domains; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Coordinated and Multiple Views",App
+461,R,High-dimensional Data; Dimensionality Reduction,App
+462,R-Strong,"Human-Subjects Qualitative Studies; Communication/Presentation, Storytelling; General Public",T&E
+463,R,"Geospatial Data; Text/Document Data; Application Motivated Visualization; Data Abstractions & Types; Process/Workflow Design; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Management, Processing, Wrangling; Cartography, Maps; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques",App
+464,R,"Image and Video Data; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",A&D
+465,A2,"Temporal Data; Vector and Tensor Field Data; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Vector, Tensor & Flow Visualization",App
+466,T,Methodologies; State-of-the-art Survey; Perception & Cognition,T&E
+467,R,"Guidelines; Visual Representation Design; Computational Benchmark Studies; Color; Charts, Diagrams, and Plots",T&E
+468,A2,"Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Comparison and Similarity",A&D
+469,R-Strong,"Scalar Field Data; Machine Learning, Statistics, Modelling, and Simulation Applications; Machine Learning Techniques; Isosurface Techniques; Uncertainty Visualization",DTr
+470,A2,"Machine Learning, Statistics, Modelling, and Simulation Applications",App
+471,A2,"Scalar Field Data; Temporal Data; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",DTr
+472,R-Strong,"Text/Document Data; Application Motivated Visualization; Process/Workflow Design; Software Prototype; Task Abstractions & Application Domains; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; General Public; Personal Visualization, Personal Visual Analytics; Data Clustering and Aggregation; Data Management, Processing, Wrangling; Machine Learning Techniques; Mathematical Foundations & Numerical Methods; Charts, Diagrams, and Plots; Comparison and Similarity; Coordinated and Multiple Views",R&I
+473,R,"High-dimensional Data; Methodologies; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation",A&D
+474,R,"Personal Visualization, Personal Visual Analytics",T&E
+475,R,"Methodologies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Communication/Presentation, Storytelling; General Public",T&E
+476,R,"Text/Document Data; Interaction Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Machine Learning Techniques; Coordinated and Multiple Views",App
+477,A2,"Text/Document Data; Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",App
+478,R,High-dimensional Data; State-of-the-art Survey,R&I
+479,R-Strong,Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; General Public,T&E
+480,T,Other Data; Application Motivated Visualization; Domain Agnostic; General Public,R&I
+481,A2,"Application Motivated Visualization; Process/Workflow Design; Software Prototype; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics",App
+482,R-Strong,Temporal Data; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies,T&E
+483,R-Strong,"Data Models; Geospatial Data; Application Motivated Visualization; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",A&D
+484,T,"Data Models; Image and Video Data; Algorithms; Interaction Design; Visual Representation Design; Computational Benchmark Studies; Human-Subjects Qualitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Color; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Data Clustering and Aggregation; Dimensionality Reduction; Feature Detection, Extraction, Tracking & Transformation; Isosurface Techniques; Cartography, Maps; Charts, Diagrams, and Plots; Comparison and Similarity; Coordinated and Multiple Views; Multi-Resolution and Level of Detail Techniques",A&D
+485,R,"Physical & Environmental Sciences, Engineering, Mathematics; Large-Scale Data Techniques",S&R
+486,A2,"Application Motivated Visualization; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Data Analysis, Reasoning, Problem Solving, and Decision Making",App
+487,R-Strong,"Software Architecture, Toolkit/Library, Language; Data Analysis, Reasoning, Problem Solving, and Decision Making; Mixed Initiative Human-Machine Analysis; Charts, Diagrams, and Plots; Coordinated and Multiple Views",R&I
+488,R,Human-Subjects Qualitative Studies,R&I
+489,R,"Data Models; Tabular Data; Application Motivated Visualization; Methodologies; Visual Representation Design; Machine Learning, Statistics, Modelling, and Simulation Applications; Data Analysis, Reasoning, Problem Solving, and Decision Making",R&I
+490,R,"Datasets; Taxonomy, Models, Frameworks, Theory; Visual Representation Design; Communication/Presentation, Storytelling; Art & Graphic Design",R&I
+491,A2,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work",T&E
+492,R,Graph/Network and Tree Data; Temporal Data; Application Motivated Visualization,App
+493,R,"Geospatial Data; Application Motivated Visualization; Human-Subjects Qualitative Studies; Machine Learning Techniques; Cartography, Maps",App
+494,R,"Text/Document Data; Software Prototype; Human-Subjects Qualitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making",A&D
+495,R,"Geospatial Data; Application Motivated Visualization; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",App
+496,A2,"Tabular Data; Interaction Design; Communication/Presentation, Storytelling; General Public; Art & Graphic Design; Charts, Diagrams, and Plots",R&I
+497,R,"Tabular Data; Software Prototype; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases",S&R
+498,R,Guidelines; Human-Subjects Quantitative Studies; Color; Perception & Cognition,T&E
+499,R-Strong,"Application Motivated Visualization; Software Prototype; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Mobile, AR/VR/Immersive, Specialized Input/Display Hardware",S&R
+500,A2,"Guidelines; Methodologies; Human-Subjects Quantitative Studies; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition",T&E
+501,R,Software Prototype; Machine Learning Techniques,S&R
+502,A2,"Vector and Tensor Field Data; Algorithms; Large-Scale Data Techniques; Computational Topology-based Techniques; Vector, Tensor & Flow Visualization",DTr
+503,R,Image and Video Data; Temporal Data; Application Motivated Visualization; Mixed Initiative Human-Machine Analysis,App
+504,A2,Human-Subjects Quantitative Studies; Perception & Cognition,T&E
+505,R,"Tabular Data; Temporal Data; Application Motivated Visualization; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Coordinated and Multiple Views",A&D
+506,R,Geospatial Data; Temporal Data; Algorithms; Animation and Motion-related Techniques,S&R
+507,A2,"Scalar Field Data; Physical & Environmental Sciences, Engineering, Mathematics; Computational Topology-based Techniques",App
+508,R-Strong,"Graph/Network and Tree Data; High-dimensional Data; Tabular Data; Temporal Data; Application Motivated Visualization; Methodologies; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Domain Agnostic; Communication/Presentation, Storytelling; Data Analysis, Reasoning, Problem Solving, and Decision Making; Data Clustering and Aggregation; Charts, Diagrams, and Plots",A&D
+509,R-Strong,Geospatial Data; High-dimensional Data; Temporal Data; Application Motivated Visualization; Interaction Design; Software Prototype; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies; Large-Scale Data Techniques; Coordinated and Multiple Views,R&I
+510,DR,"Image and Video Data; Process/Workflow Design; Taxonomy, Models, Frameworks, Theory; Computational Benchmark Studies; Perception & Cognition; Feature Detection, Extraction, Tracking & Transformation; Machine Learning Techniques",T&E
+511,A2,Text/Document Data; Human-Subjects Quantitative Studies; Domain Agnostic; Perception & Cognition,T&E
+512,A2,Dimensionality Reduction; Mathematical Foundations & Numerical Methods; Uncertainty Visualization,DTr
+513,A2,"Software Architecture, Toolkit/Library, Language; Human-Subjects Qualitative Studies; Human-Subjects Quantitative Studies",S&R
+514,R-Strong,"Other Data; Data Abstractions & Types; Guidelines; Taxonomy, Models, Frameworks, Theory; Visual Representation Design",T&E
+515,R-Strong,"High-dimensional Data; Data Abstractions & Types; Deployment; Software Architecture, Toolkit/Library, Language; Visual Representation Design; Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Collaboration; Coordinated and Multiple Views",S&R
+516,A2,"Geospatial Data; Data Type Agnostic; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Software Prototype; Other Application Areas; Machine Learning Techniques",S&R
+517,R,Temporal Data; Algorithms; Data Clustering and Aggregation; Large-Scale Data Techniques,R&I
+518,R-Strong,Tabular Data; Data Abstractions & Types; Datasets; Interaction Design,R&I
+519,R-Strong,"Graph/Network and Tree Data; Task Abstractions & Application Domains; Taxonomy, Models, Frameworks, Theory",T&E
+520,R,"Data Type Agnostic; Taxonomy, Models, Frameworks, Theory; Domain Agnostic; Mixed Initiative Human-Machine Analysis",T&E
+521,R-Strong,"Software Prototype; Human-Subjects Qualitative Studies; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Personal Visualization, Personal Visual Analytics; Animation and Motion-related Techniques",App
+522,A2,"Guidelines; Human-Subjects Qualitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Collaboration",T&E
+523,R,"Scalar Field Data; Application Motivated Visualization; Data Abstractions & Types; Software Prototype; Visual Representation Design; Computational Benchmark Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Physical & Environmental Sciences, Engineering, Mathematics; Data Analysis, Reasoning, Problem Solving, and Decision Making; Feature Detection, Extraction, Tracking & Transformation; Large-Scale Data Techniques; Computational Topology-based Techniques; Isosurface Techniques; Comparison and Similarity; Computer Graphics Techniques",DTr
+524,T,Data Type Agnostic; Process/Workflow Design; Visual Representation Design; Domain Agnostic,T&E
+525,R-Strong,"Data Models; Process/Workflow Design; Software Prototype; Task Abstractions & Application Domains; Computational Benchmark Studies; Machine Learning, Statistics, Modelling, and Simulation Applications; Feature Detection, Extraction, Tracking & Transformation; Coordinated and Multiple Views",A&D
+526,R-Strong,"Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Animation and Motion-related Techniques",App
+527,R,"Graph/Network and Tree Data; Process/Workflow Design; Software Architecture, Toolkit/Library, Language; Software Prototype; Taxonomy, Models, Frameworks, Theory; Data Management, Processing, Wrangling; Charts, Diagrams, and Plots",S&R
+528,DR,"High-dimensional Data; Image and Video Data; Algorithms; Physical & Environmental Sciences, Engineering, Mathematics; Perception & Cognition; Feature Detection, Extraction, Tracking & Transformation; Volume Rendering; Computer Graphics Techniques",App
+529,R,"Image and Video Data; Datasets; Visual Representation Design; Communication/Presentation, Storytelling; Machine Learning Techniques; Art & Graphic Design",R&I
+530,R,"Scalar Field Data; Physical & Environmental Sciences, Engineering, Mathematics; Machine Learning Techniques; Uncertainty Visualization",App
+531,R,"Methodologies; Process/Workflow Design; Task Abstractions & Application Domains; Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies",T&E
+532,A2,"High-dimensional Data; Text/Document Data; Task Abstractions & Application Domains; Life Sciences, Health, Medicine, Biology, Bioinformatics, Genomics; Machine Learning Techniques",App
+533,R,"Taxonomy, Models, Frameworks, Theory; Human-Subjects Qualitative Studies; Communication/Presentation, Storytelling",T&E
+534,R,"Temporal Data; Human-Subjects Quantitative Studies; Computing: Software, Networks, Security, Performance Engr., Distr. Systems, Databases; Comparison and Similarity",T&E
+535,R-Strong,Image and Video Data; Algorithms; Machine Learning Techniques; Image and Signal Processing,App
+536,A2,"Human-Subjects Quantitative Studies; Social Science, Education, Humanities, Journalism, Intelligence Analysis, Knowledge Work; Data Analysis, Reasoning, Problem Solving, and Decision Making; Perception & Cognition; Uncertainty Visualization",T&E
